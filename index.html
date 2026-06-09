@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>govind mittal — ai engineer & researcher</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0c11;--bg-e:#0e1117;--surf:#13171f;--surf-hi:#1a1f29;
+  --line:rgba(255,255,255,0.06);--line-hi:rgba(255,255,255,0.13);
+  --amber:#ffb454;--amber-d:#e0922f;--cyan:#5ccfe6;--green:#9bd96a;
+  --red:#f07171;--purple:#d2a6ff;
+  --txt:#c8ccd6;--txt-d:#6b7280;--txt-f:#3d4350;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --serif:'Instrument Serif',Georgia,serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--txt);font-family:var(--mono);font-size:15px;line-height:1.6;overflow-x:hidden}
+::selection{background:rgba(255,180,84,.25);color:#fff}
+a{color:inherit;text-decoration:none}
+
+#cv{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45}
+.vig{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 90% 70% at 50% 0%,transparent 40%,rgba(0,0,0,.55) 100%)}
+.scl{position:fixed;inset:0;z-index:60;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0px,rgba(0,0,0,.16) 1px,transparent 1px,transparent 3px);mix-blend-mode:multiply;transition:opacity .4s}
+body.crt-off .scl{opacity:0}
+body.crt-off #flk{display:none}
+#flk{position:fixed;inset:0;z-index:61;pointer-events:none;background:rgba(255,255,255,.012);animation:flick .14s infinite}
+@keyframes flick{0%,100%{opacity:.5}50%{opacity:.85}}
+
+#boot{position:fixed;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column;justify-content:center;padding:0 8vw;transition:opacity .5s,visibility .5s}
+#boot.done{opacity:0;visibility:hidden}
+.bl{font-size:13px;color:var(--txt-d);opacity:0;transform:translateY(4px)}
+.bl.on{opacity:1;transform:none;transition:all .2s}
+.bl .ok{color:var(--green)}.bl .am{color:var(--amber)}.bl .cy{color:var(--cyan)}
+.bs{position:fixed;bottom:6vh;left:8vw;font-size:11px;color:var(--txt-f);letter-spacing:.1em}
+.bs kbd{border:1px solid var(--line-hi);padding:1px 6px;border-radius:3px;color:var(--txt-d);font-family:var(--mono)}
+
+.chrome{position:sticky;top:0;z-index:50;background:rgba(14,17,23,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.chrome-top{display:flex;align-items:center;gap:12px;padding:9px 18px;border-bottom:1px solid var(--line)}
+.tl{display:flex;gap:7px}
+.tl i{width:11px;height:11px;border-radius:50%;display:block}
+.tl .r{background:#ff5f57}.tl .y{background:#febc2e}.tl .g{background:#28c840}
+.chrome-title{font-size:11px;color:var(--txt-f);flex:1;text-align:center;letter-spacing:.05em}
+.chrome-title b{color:var(--txt-d);font-weight:400}
+.clk{font-size:11px;color:var(--amber);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.chip{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--txt-d);background:var(--surf);border:1px solid var(--line);padding:4px 10px;border-radius:5px;cursor:pointer;user-select:none;transition:all .15s;white-space:nowrap}
+.chip:hover{border-color:var(--line-hi);color:var(--txt)}
+.chip .led{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green)}
+.chip.guided .led{background:var(--amber);box-shadow:0 0 5px var(--amber)}
+.tabs{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;gap:0}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:6px;padding:8px 15px;font-size:11.5px;color:var(--txt-f);cursor:pointer;border-right:1px solid var(--line);white-space:nowrap;border-bottom:2px solid transparent;transition:all .15s;user-select:none}
+.tab:hover{color:var(--txt-d);background:rgba(255,255,255,.02)}
+.tab.active{color:var(--amber);border-bottom-color:var(--amber);background:rgba(255,180,84,.04)}
+.tab .ti{font-size:11px}
+.gbanner{max-height:0;overflow:hidden;background:linear-gradient(90deg,rgba(255,180,84,.07),rgba(255,180,84,.02));border-bottom:1px solid transparent;transition:max-height .35s,border-color .35s}
+body.guided .gbanner{max-height:50px;border-bottom-color:rgba(255,180,84,.18)}
+.gbanner div{padding:9px 18px;font-size:12px;color:var(--amber);text-align:center}
+.gbanner span{color:var(--amber-d);opacity:.7}
+
+.panel{display:none;position:relative;z-index:2}
+.panel.active{display:block}
+.wrap{max-width:880px;margin:0 auto;padding:0 24px}
+
+/* shared blocks */
+.block{padding:3.5vh 0;border-top:1px solid var(--line)}
+.block:first-child{border-top:none}
+.cmdl{display:flex;align-items:baseline;gap:9px;font-size:13.5px;margin-bottom:16px;flex-wrap:wrap}
+.cmdl .ps{color:var(--cyan)}.cmdl .pm{color:var(--amber)}
+.cmdl .ty{color:#eef0f4;font-weight:500}
+.cmdl .tc{display:inline-block;width:8px;height:14px;background:var(--amber);vertical-align:-2px;animation:blink 1s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.out{padding-left:18px;border-left:1px solid var(--line)}
+.rv{opacity:0;transform:translateY(8px)}
+.rv.in{opacity:1;transform:none;transition:opacity .5s,transform .5s}
+.tip{max-height:0;overflow:hidden;opacity:0;font-size:12px;color:var(--amber-d);line-height:1.55;border-left:2px solid rgba(255,180,84,.35);background:rgba(255,180,84,.04);transition:all .3s;margin-bottom:0}
+body.guided .tip{max-height:100px;opacity:1;padding:7px 12px;margin-bottom:14px}
+.tip b{color:var(--amber)}
+.pull{font-family:var(--serif);font-style:italic;font-size:clamp(1.25rem,3.2vw,1.9rem);line-height:1.4;color:#e8eaef;margin:4px 0 20px}
+.pull em{color:var(--amber)}
+.kv{font-size:13px;color:var(--txt-d);margin-bottom:4px}
+.kv .k{color:var(--cyan);display:inline-block;min-width:104px}
+.kv .v{color:var(--txt)}.kv .v b{color:var(--amber);font-weight:500}
+.cg{margin-top:20px;display:grid;gap:8px}
+.cap{display:grid;grid-template-columns:150px 1fr 40px;align-items:center;gap:12px}
+.cap-n{font-size:12px;color:var(--txt)}
+.cap-b{height:6px;background:var(--surf);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.cap-f{height:100%;width:0;border-radius:2px;background:linear-gradient(90deg,var(--amber-d),var(--amber));transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.cap-p{font-size:10px;color:var(--txt-f);text-align:right;font-variant-numeric:tabular-nums}
+.stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.stat{flex:1;min-width:130px;background:var(--surf);border:1px solid var(--line);border-radius:8px;padding:14px 16px;transition:border-color .2s,transform .2s}
+.stat:hover{border-color:var(--line-hi);transform:translateY(-2px)}
+.stat .n{font-size:1.8rem;font-weight:700;color:var(--amber);line-height:1;font-variant-numeric:tabular-nums}
+.stat .l{font-size:10.5px;color:var(--txt-f);margin-top:6px;letter-spacing:.04em}
+.og{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:7px}
+.ob{display:flex;align-items:center;gap:10px;background:var(--surf);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:12px;color:var(--txt-d);transition:all .15s;cursor:default}
+.ob:hover{border-color:var(--line-hi);color:var(--txt);background:var(--surf-hi);transform:translateX(2px)}
+.ob .gx{color:var(--amber);width:20px;text-align:center;flex-shrink:0}
+.ob:hover .gx{color:var(--cyan)}
+.psh{display:grid;grid-template-columns:64px 96px 1fr 88px;gap:10px;font-size:10px;color:var(--txt-f);letter-spacing:.1em;text-transform:uppercase;padding:0 12px 7px;border-bottom:1px solid var(--line)}
+.proc{border:1px solid var(--line);border-radius:8px;margin-top:7px;background:var(--surf);overflow:hidden;transition:border-color .2s}
+.proc:hover{border-color:var(--line-hi)}
+.proc.open{border-color:rgba(255,180,84,.3)}
+.pr{display:grid;grid-template-columns:64px 96px 1fr 88px;gap:10px;align-items:center;padding:11px 12px;cursor:pointer}
+.pid{font-size:11px;color:var(--txt-f);font-variant-numeric:tabular-nums}
+.pst{font-size:10px;display:flex;align-items:center;gap:5px}
+.pst .d{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.pst.dev{color:var(--amber)}.pst.dev .d{background:var(--amber)}
+.pst.que{color:var(--cyan)}.pst.que .d{background:var(--cyan)}
+.pst.res{color:var(--purple)}.pst.res .d{background:var(--purple)}
+.pst.done{color:var(--green)}.pst.done .d{background:var(--green);box-shadow:0 0 5px var(--green)}
+.pn{font-size:13.5px;color:#eef0f4;font-weight:500}
+.pn .arr{color:var(--txt-f);font-size:10px;margin-left:6px;transition:all .2s;display:inline-block}
+.proc.open .pn .arr{color:var(--amber);transform:rotate(90deg)}
+.pload{display:flex;gap:2px;justify-content:flex-end}
+.pload i{width:4px;height:13px;border-radius:1px;background:var(--surf-hi);display:block}
+.pload i.on{background:var(--amber)}
+.pb{max-height:0;overflow:hidden;transition:max-height .35s;border-top:1px solid transparent}
+.proc.open .pb{max-height:380px;border-top-color:var(--line)}
+.pbi{padding:13px 14px}
+.pdesc{font-size:12.5px;color:var(--txt-d);line-height:1.65;margin-bottom:9px}
+.pdesc .hl{color:var(--txt)}
+.gi{display:none;font-size:12px;color:var(--amber-d);line-height:1.5;background:rgba(255,180,84,.05);border-left:2px solid rgba(255,180,84,.35);padding:7px 10px;margin-bottom:9px}
+body.guided .gi{display:block}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:10px;color:var(--txt-d);background:var(--bg-e);border:1px solid var(--line);border-radius:3px;padding:2px 7px}
+.tag.r{color:var(--cyan);border-color:rgba(92,207,230,.25)}
+.tag.p{color:var(--purple);border-color:rgba(210,166,255,.25)}
+.lks{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.lk{display:flex;align-items:center;gap:8px;background:var(--surf);border:1px solid var(--line);border-radius:6px;padding:10px 14px;font-size:12.5px;color:var(--txt-d);transition:all .15s;cursor:pointer}
+.lk:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-2px)}
+.lk .gx{color:var(--amber)}
+
+/* hero */
+.hero{padding:6vh 0 0}
+.hm{font-size:11.5px;color:var(--txt-f);letter-spacing:.14em;text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:9px}
+.hm::before{content:'';width:22px;height:1px;background:var(--amber)}
+.glitch{font-size:clamp(2.4rem,7.5vw,4.4rem);font-weight:700;line-height:.97;letter-spacing:-.02em;color:#f4f5f8;position:relative;cursor:default;display:inline-block}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;inset:0}
+.glitch::before{color:var(--cyan);opacity:0}
+.glitch::after{color:var(--amber);opacity:0}
+.glitch:hover::before{animation:gl1 .4s steps(2) infinite;opacity:.75}
+.glitch:hover::after{animation:gl2 .4s steps(2) infinite;opacity:.75}
+@keyframes gl1{0%{clip-path:inset(10% 0 80% 0);transform:translate(-3px,-1px)}50%{clip-path:inset(50% 0 30% 0);transform:translate(2px,1px)}100%{clip-path:inset(40% 0 40% 0);transform:translate(-2px,0)}}
+@keyframes gl2{0%{clip-path:inset(75% 0 10% 0);transform:translate(3px,1px)}50%{clip-path:inset(20% 0 65% 0);transform:translate(-2px,-1px)}100%{clip-path:inset(60% 0 25% 0);transform:translate(2px,0)}}
+.hrole{font-size:clamp(.95rem,2.2vw,1.35rem);color:var(--txt-d);margin-top:12px;font-weight:300}
+.hrole b{color:var(--amber);font-weight:500}
+.hstat{margin-top:20px;font-size:12px;color:var(--txt-f);display:flex;flex-wrap:wrap;gap:5px 18px}
+.hstat i{font-style:normal}
+.hstat .v{color:var(--cyan)}
+.pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 7px var(--green);animation:beat 1.6s ease-in-out infinite;vertical-align:middle;margin-right:5px}
+@keyframes beat{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.45);opacity:.4}}
+
+/* ════════════════════════════════════════
+   TUI AGENT — Claude Code style
+   ════════════════════════════════════════ */
+.tui-wrap{
+  margin:20px 0 10px;
+  border:1px solid var(--line-hi);
+  border-radius:9px;
+  overflow:hidden;
+  height:calc(58vh);
+  min-height:380px;
+  max-height:560px;
+  display:flex;
+  flex-direction:column;
+  background:var(--bg-e);
+}
+.tui-chrome{
+  display:flex;align-items:center;gap:10px;padding:7px 14px;
+  background:var(--surf);border-bottom:1px solid var(--line);flex-shrink:0;
+}
+.tui-chrome .tl i{width:9px;height:9px}
+.tui-chrome-title{font-size:10.5px;color:var(--txt-f);letter-spacing:.06em;flex:1}
+.tui-chrome-title b{color:var(--txt-d);font-weight:400}
+.tui-context{font-size:10px;color:var(--txt-f);padding:2px 0}
+/* the terminal output area */
+.tui-out{
+  flex:1;overflow-y:auto;padding:14px 16px;
+  font-size:13px;line-height:1.65;
+}
+.tui-out::-webkit-scrollbar{width:5px}
+.tui-out::-webkit-scrollbar-thumb{background:var(--line-hi);border-radius:3px}
+/* welcome box with box-drawing chars */
+.tui-welcome{
+  font-size:12.5px;color:var(--txt-d);
+  margin-bottom:14px;white-space:pre;
+  border-left:none;
+}
+.tui-welcome .top{color:var(--line-hi)}
+.tui-welcome .hl{color:var(--amber)}
+.tui-welcome .cy{color:var(--cyan)}
+.tui-welcome .dim{color:var(--txt-f)}
+/* turns */
+.tui-turn{margin-bottom:0}
+.tui-sep{height:1px;background:var(--line);margin:11px 0 11px}
+/* user line: ~/path ❯ message */
+.tui-user{
+  display:flex;align-items:baseline;gap:7px;
+  margin-bottom:7px;
+}
+.tui-user .u-path{color:var(--cyan);font-size:12.5px}
+.tui-user .u-sym{color:var(--amber)}
+.tui-user .u-msg{color:#eef0f4}
+/* agent response: bullet + indented text */
+.tui-agent-turn{margin-bottom:4px}
+.tui-agent-line{
+  display:flex;align-items:flex-start;gap:7px;
+  font-size:13px;color:var(--txt);line-height:1.65;
+}
+.tui-bullet{
+  color:var(--purple);flex-shrink:0;font-size:13px;
+  margin-top:1px;min-width:14px;
+}
+.tui-agent-body{flex:1}
+.tui-agent-body p{margin-bottom:6px;color:var(--txt)}
+.tui-agent-body p:last-child{margin-bottom:0}
+.tui-agent-body .hl{color:#eef0f4}
+.tui-agent-body .am{color:var(--amber)}
+.tui-agent-body .cy{color:var(--cyan)}
+.tui-agent-body .gr{color:var(--green)}
+.tui-agent-body .pu{color:var(--purple)}
+.tui-agent-body .dim{color:var(--txt-d)}
+.tui-agent-body pre{
+  background:var(--surf);border:1px solid var(--line);
+  padding:8px 10px;margin:6px 0;font-size:11.5px;
+  color:var(--cyan);border-radius:4px;overflow-x:auto;
+}
+/* thinking block */
+.tui-thinking{
+  display:flex;align-items:flex-start;gap:7px;
+  font-size:12px;color:var(--txt-f);
+  margin-bottom:6px;
+}
+.tui-thinking .t-bul{color:var(--txt-f);flex-shrink:0;font-size:12px}
+.tui-thinking-inner{flex:1}
+.tui-thinking-toggle{
+  cursor:pointer;display:flex;align-items:center;gap:5px;
+  transition:color .15s;
+}
+.tui-thinking-toggle:hover{color:var(--txt-d)}
+.tui-thinking-toggle .spin{animation:spin .9s linear infinite;display:inline-block;color:var(--purple)}
+.tui-thinking-toggle .done-spin{color:var(--txt-f)}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.tui-thinking-text{
+  max-height:0;overflow:hidden;font-size:11.5px;
+  color:var(--txt-f);line-height:1.55;
+  border-left:1px solid var(--line-hi);
+  padding-left:10px;margin-top:4px;
+  transition:max-height .3s;
+}
+.tui-thinking-text.open{max-height:260px}
+/* typing dots */
+.tui-typing{
+  display:flex;align-items:flex-start;gap:7px;font-size:13px;
+  color:var(--txt-f);margin-bottom:4px;
+}
+.tui-typing .t-bul{color:var(--purple)}
+.dots span{
+  display:inline-block;width:4px;height:4px;border-radius:50%;
+  background:var(--purple);margin:0 1px;
+  animation:td .8s ease-in-out infinite;
+}
+.dots span:nth-child(2){animation-delay:.15s}
+.dots span:nth-child(3){animation-delay:.3s}
+@keyframes td{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
+/* input line — looks like a terminal prompt */
+.tui-input-area{
+  border-top:1px solid var(--line-hi);
+  background:var(--surf);
+  flex-shrink:0;
+}
+.tui-prompt-line{
+  display:flex;align-items:center;gap:7px;
+  padding:9px 16px;
+}
+.tui-prompt-line .p-path{color:var(--cyan);font-size:13px;flex-shrink:0}
+.tui-prompt-line .p-sym{color:var(--amber);flex-shrink:0}
+.tui-prompt-line input{
+  flex:1;background:none;border:none;outline:none;
+  color:#eef0f4;font-family:var(--mono);font-size:13px;
+  caret-color:var(--amber);
+}
+.tui-statusbar{
+  display:flex;align-items:center;gap:16px;
+  padding:4px 16px 7px;font-size:10px;color:var(--txt-f);
+  border-top:1px solid var(--line);
+}
+.tui-statusbar .sb-item{display:flex;align-items:center;gap:5px}
+.tui-statusbar .sb-dot{width:5px;height:5px;border-radius:50%;background:var(--green)}
+.tui-rate{margin-left:auto;color:var(--txt-f)}
+.tui-rate b{color:var(--amber-d)}
+/* guided tip inside tui */
+.tui-guided-tip{
+  display:none;font-size:11.5px;color:var(--amber-d);
+  background:rgba(255,180,84,.05);border-left:2px solid rgba(255,180,84,.3);
+  padding:7px 12px;margin-bottom:12px;line-height:1.5;
+}
+body.guided .tui-guided-tip{display:block}
+
+/* research / exp / other tabs */
+.file-tree{font-size:12.5px;color:var(--txt-d);line-height:1.8}
+.file-tree .dir{color:var(--cyan)}.file-tree .file{color:var(--txt)}
+.file-tree .file.paper{color:var(--amber)}.file-tree .file.plan{color:var(--purple)}
+.file-tree .sym{color:var(--txt-f)}
+.ri-card{background:var(--surf);border:1px solid var(--line);border-radius:7px;padding:14px 16px;margin-top:10px;transition:border-color .2s}
+.ri-card:hover{border-color:var(--line-hi)}
+.ri-card h3{font-size:13px;color:#eef0f4;font-weight:500;margin-bottom:5px}
+.ri-card p{font-size:12px;color:var(--txt-d);line-height:1.6}
+.ri-card .meta{font-size:10.5px;color:var(--txt-f);margin-top:7px}
+.gl-line{display:flex;gap:12px;margin-bottom:0;position:relative}
+.gl-line::before{content:'';position:absolute;left:18px;top:28px;bottom:-14px;width:1px;background:var(--line)}
+.gl-line:last-child::before{display:none}
+.gl-dot{width:36px;flex-shrink:0;display:flex;justify-content:center;padding-top:4px}
+.gl-dot span{width:10px;height:10px;border-radius:50%;background:var(--surf-hi);border:2px solid var(--line-hi);display:block;position:relative;z-index:1}
+.gl-dot span.active{background:var(--amber);border-color:var(--amber);box-shadow:0 0 8px rgba(255,180,84,.4)}
+.gl-body{flex:1;padding-bottom:22px}
+.gl-body .hash{font-size:10.5px;color:var(--amber-d);margin-bottom:3px}
+.gl-body .title{font-size:14px;color:#eef0f4;font-weight:500;margin-bottom:4px}
+.gl-body .sub{font-size:12px;color:var(--txt-d);line-height:1.65}
+.gl-body .dates{font-size:10.5px;color:var(--txt-f);margin-top:5px}
+.blog-row{display:grid;grid-template-columns:140px 1fr 80px;gap:16px;padding:9px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.blog-row:last-child{border-bottom:none}
+.blog-row .dt{color:var(--txt-f);font-size:11px;font-variant-numeric:tabular-nums}
+.blog-row .title{color:var(--txt);transition:color .15s;cursor:pointer}
+.blog-row .title:hover{color:var(--amber)}
+.blog-row .btag{font-size:10px;color:var(--txt-d);text-align:right}
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.cert{background:var(--surf);border:1px solid var(--line);border-radius:8px;padding:14px 16px;transition:all .2s}
+.cert:hover{border-color:rgba(255,180,84,.3);transform:translateY(-2px)}
+.cert .icon{font-size:18px;margin-bottom:7px}
+.cert .name{font-size:12.5px;color:#eef0f4;font-weight:500;margin-bottom:3px}
+.cert .issuer{font-size:11px;color:var(--cyan)}
+.cert .year{font-size:10.5px;color:var(--txt-f);margin-top:5px}
+.foot{border-top:1px solid var(--line);padding:24px 0 44px;font-size:11px;color:var(--txt-f)}
+.foot .fl{color:var(--cyan)}.foot .fa{color:var(--amber)}
+
+@media(max-width:640px){
+  body{font-size:14px}
+  .cap{grid-template-columns:98px 1fr 34px;gap:9px}.cap-n{font-size:11px}
+  .psh,.pr{grid-template-columns:44px 76px 1fr 52px;gap:7px}.pn{font-size:12px}
+  .clk{display:none}
+  .tui-wrap{height:54vh;min-height:340px}
+  .blog-row{grid-template-columns:100px 1fr;gap:10px}.blog-row .btag{display:none}
+  .tui-prompt-line .p-path{display:none}
+}
+</style>
+</head>
+<body>
+
+<canvas id="cv"></canvas>
+<div class="vig"></div>
+<div class="scl"></div>
+<div id="flk"></div>
+
+<div id="boot">
+  <div id="bl-wrap"></div>
+  <div class="bs">press <kbd>any key</kbd> to skip</div>
+</div>
+
+<div class="chrome">
+  <div class="chrome-top">
+    <div class="tl"><i class="r"></i><i class="y"></i><i class="g"></i></div>
+    <div class="chrome-title"><b>govind@portfolio</b> &mdash; ~/govinda610</div>
+    <div class="clk" id="clk">--:--:--</div>
+    <div class="chip" onclick="toggleCRT()"><span style="font-size:12px">&#9638;</span><span id="crt-l">CRT</span></div>
+    <div class="chip" id="mode-chip" onclick="toggleMode()"><span class="led"></span><span id="mode-l">expert</span></div>
+  </div>
+  <div class="tabs" id="tab-bar">
+    <div class="tab active" data-tab="home" onclick="switchTab('home')"><span class="ti">~</span>home</div>
+    <div class="tab" data-tab="projects" onclick="switchTab('projects')"><span class="ti">&#9654;</span>projects</div>
+    <div class="tab" data-tab="research" onclick="switchTab('research')"><span class="ti">&#9670;</span>research</div>
+    <div class="tab" data-tab="exp" onclick="switchTab('exp')"><span class="ti">&#9677;</span>exp</div>
+    <div class="tab" data-tab="blog" onclick="switchTab('blog')"><span class="ti">&#9998;</span>blog</div>
+    <div class="tab" data-tab="certs" onclick="switchTab('certs')"><span class="ti">&#10003;</span>certs</div>
+  </div>
+  <div class="gbanner"><div>guided mode &mdash; <span>click tabs above to explore. plain-english notes appear in the narrative sections below.</span></div></div>
+</div>
+
+<!-- HOME TAB -->
+<div class="panel active" id="tab-home">
+<div class="wrap">
+  <div class="hero">
+    <div class="hm">ai engineer &middot; researcher &middot; india</div>
+    <h1 class="glitch" data-text="GOVIND MITTAL">GOVIND MITTAL</h1>
+    <p class="hrole">I build <b>autonomous AI systems</b> &mdash; and study what happens inside them.</p>
+    <div class="hstat">
+      <i><span class="pulse"></span><span class="v">online &amp; available</span></i>
+      <i><span style="color:var(--txt-f)">role</span> <span class="v">snr. ai engineer @ gartner</span></i>
+      <i><span style="color:var(--txt-f)">seeking</span> <span class="v">researcher roles @ anthropic / deepmind / openai</span></i>
+    </div>
+  </div>
+
+  <!-- ════ TUI AGENT ════ -->
+  <div class="tui-wrap">
+    <div class="tui-chrome">
+      <div class="tl"><i class="r"></i><i class="y"></i><i class="g"></i></div>
+      <div class="tui-chrome-title"><b>govind-agent</b> &mdash; portfolio assistant</div>
+      <div class="tui-context" id="agent-mode-label">demo mode</div>
+    </div>
+    <div class="tui-out" id="tui-out"></div>
+    <div class="tui-input-area">
+      <div class="tui-prompt-line">
+        <span class="p-path">~/govinda610</span>
+        <span class="p-sym">&#10095;</span>
+        <input id="tui-inp" autocomplete="off" spellcheck="false" placeholder="ask me anything about my work, research, or background...">
+      </div>
+      <div class="tui-statusbar">
+        <div class="sb-item"><span class="sb-dot"></span><span id="agent-status">ready</span></div>
+        <div class="sb-item" style="color:var(--purple)">&#10022; govind-agent</div>
+        <div class="tui-rate">queries: <b id="q-used">0</b>/10 today</div>
+      </div>
+    </div>
+  </div>
+  <!-- guided tip for tui -->
+  <div class="tui-guided-tip" style="margin-top:-4px;border-radius:0 0 6px 6px">
+    &#128161; <b>This is an AI assistant</b> that knows Govind &mdash; ask it about his projects, research, background, or how to work with him. You can also just click the tabs above to explore without typing.
+  </div>
+
+  <!-- scrollable narrative below the TUI -->
+  <div class="block">
+    <div class="cmdl" data-cmd><span class="ps">~/govinda610</span><span class="pm">&#10095;</span><span class="ty" data-type="whoami --verbose"></span><span class="tc"></span></div>
+    <div class="tip">&#128161; <b>whoami</b> asks the computer "who is the current user?" &mdash; here it introduces Govind.</div>
+    <div class="out">
+      <p class="pull rv">From economics, I learned <em>what happens to people when machines take their jobs.</em> That pulled me into the machines themselves.</p>
+      <div class="kv rv"><span class="k">identity</span><span class="v"><b>Govind Mittal</b> &middot; 29 &middot; Senior AI Engineer</span></div>
+      <div class="kv rv"><span class="k">current</span><span class="v">Gartner India &mdash; agentic AI, multi-agent RAG, automation pipelines</span></div>
+      <div class="kv rv"><span class="k">history</span><span class="v">Eli Lilly <span style="color:var(--txt-f)">(data science automation)</span> &middot; Citigroup <span style="color:var(--txt-f)">(ML)</span></span></div>
+      <div class="kv rv"><span class="k">education</span><span class="v"><b>MSc Economics</b> &mdash; AI impact on labour, UBI, automation</span></div>
+      <div class="kv rv"><span class="k">also</span><span class="v">co-authored medical statistics papers with a physician grandfather</span></div>
+      <div class="cg rv">
+        <div class="cap"><span class="cap-n">Agentic AI Systems</span><div class="cap-b"><div class="cap-f" data-pct="95"></div></div><span class="cap-p">95</span></div>
+        <div class="cap"><span class="cap-n">RAG &amp; Retrieval</span><div class="cap-b"><div class="cap-f" data-pct="92"></div></div><span class="cap-p">92</span></div>
+        <div class="cap"><span class="cap-n">LLM Fine-tuning</span><div class="cap-b"><div class="cap-f" data-pct="84"></div></div><span class="cap-p">84</span></div>
+        <div class="cap"><span class="cap-n">Mech. Interp.</span><div class="cap-b"><div class="cap-f" data-pct="72"></div></div><span class="cap-p">72</span></div>
+        <div class="cap"><span class="cap-n">ML Forecasting</span><div class="cap-b"><div class="cap-f" data-pct="88"></div></div><span class="cap-p">88</span></div>
+        <div class="cap"><span class="cap-n">Econometrics</span><div class="cap-b"><div class="cap-f" data-pct="90"></div></div><span class="cap-p">90</span></div>
+      </div>
+      <div class="stats rv">
+        <div class="stat"><div class="n" data-count="4">0</div><div class="l">YRS IN PRODUCTION AI</div></div>
+        <div class="stat"><div class="n" data-count="30" data-sfx="+">0</div><div class="l">PROJECTS IN FLIGHT</div></div>
+        <div class="stat"><div class="n" data-count="3">0</div><div class="l">RESEARCH PAPERS</div></div>
+        <div class="stat"><div class="n" data-count="3">0</div><div class="l">FRONTIER LABS TARGETED</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="cmdl" data-cmd><span class="ps">~/govinda610</span><span class="pm">&#10095;</span><span class="ty" data-type="ls ./what-i-obsess-over"></span><span class="tc"></span></div>
+    <div class="tip">&#128161; <b>ls</b> lists folder contents. This shows Govind's research obsessions.</div>
+    <div class="out">
+      <div class="og">
+        <div class="ob rv"><span class="gx">&#9670;</span>Agentic &amp; Multi-Agent AI</div>
+        <div class="ob rv"><span class="gx">&#9671;</span>Mechanistic Interpretability</div>
+        <div class="ob rv"><span class="gx">&#9650;</span>LLM Architecture &amp; Training</div>
+        <div class="ob rv"><span class="gx">&#11041;</span>Robotics &amp; World Models</div>
+        <div class="ob rv"><span class="gx">&#9672;</span>Vision-Language-Action</div>
+        <div class="ob rv"><span class="gx">&#8767;</span>Time-Series Forecasting</div>
+        <div class="ob rv"><span class="gx">$</span>Quantitative Trading</div>
+        <div class="ob rv"><span class="gx">+</span>Medical AI for India</div>
+        <div class="ob rv"><span class="gx">&#9733;</span>Scientific Discovery</div>
+        <div class="ob rv"><span class="gx">&#9635;</span>Space &amp; Deep Tech</div>
+        <div class="ob rv"><span class="gx">&#9680;</span>Climate &amp; Clean Energy</div>
+        <div class="ob rv"><span class="gx">&#2309;</span>Indic Language NLP</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="cmdl" data-cmd><span class="ps">~/govinda610</span><span class="pm">&#10095;</span><span class="ty" data-type="cat story.md"></span><span class="tc"></span></div>
+    <div class="tip">&#128161; <b>cat</b> prints a text file. This is Govind's story.</div>
+    <div class="out">
+      <p class="rv" style="font-size:13.5px;color:var(--txt-d);line-height:1.8;margin-bottom:12px">I started with economics &mdash; studying how automation reshapes labour markets in countries like <span style="color:var(--txt)">India</span>, where the stakes are highest.</p>
+      <p class="pull rv">So I stopped studying the impact of the machine, <em>and started building it.</em></p>
+      <p class="rv" style="font-size:13.5px;color:var(--txt-d);line-height:1.8;margin-bottom:12px">At <span style="color:var(--amber)">Citigroup</span> I did ML and forecasting. At <span style="color:var(--amber)">Eli Lilly</span> I compressed days of data science into minutes. At <span style="color:var(--amber)">Gartner</span> I orchestrate fleets of agents that reason, retrieve and act.</p>
+      <p class="rv" style="font-size:13.5px;color:var(--txt-d);line-height:1.8;margin-bottom:12px">But applications aren't the destination. I want to work on <span style="color:var(--txt)">the architecture of intelligence itself</span> &mdash; interpretability, training dynamics, new attention mechanisms, world models, VLAs. The long game: a deep-tech company that matters, or a quant fund with a systematic market edge. The <span style="color:var(--amber)">Jim Simons</span> model.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="cmdl" data-cmd><span class="ps">~/govinda610</span><span class="pm">&#10095;</span><span class="ty" data-type="./connect.sh"></span><span class="tc"></span></div>
+    <div class="tip">&#128161; Running a script that opens all the ways to reach Govind.</div>
+    <div class="out">
+      <p class="kv rv" style="margin-bottom:14px"><span class="k">open_to</span><span class="v"><b>Researcher roles</b> @ Anthropic &middot; DeepMind &middot; OpenAI &nbsp;//&nbsp; freelance AI engineering</span></p>
+      <div class="lks rv">
+        <a class="lk"><span class="gx">&#8997;</span>GitHub &mdash; /govinda610</a>
+        <a class="lk"><span class="gx">&#9993;</span>govindmittal610@gmail.com</a>
+        <a class="lk"><span class="gx">&#9636;</span>Research Papers</a>
+        <a class="lk"><span class="gx">&#9998;</span>Blog &amp; Writing</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span class="fl">~/govinda610</span> <span class="fa">&#10095;</span> echo "govind mittal &middot; <span id="yr">2026</span>"
+  </div>
+</div>
+</div>
+
+<!-- PROJECTS TAB -->
+<div class="panel" id="tab-projects">
+<div class="wrap">
+  <div class="block rv" style="border-top:none;padding-top:3.5vh">
+    <div style="font-size:11px;color:var(--txt-f);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px">~/govinda610/projects &mdash; ps aux</div>
+    <p style="font-size:12.5px;color:var(--txt-d);margin-bottom:16px">Click any process to expand. Sorted by impact.</p>
+    <div class="psh"><span>PID</span><span>STATUS</span><span>PROCESS</span><span>LOAD</span></div>
+    <div id="proj-list"></div>
+  </div>
+  <div class="foot">
+    <span class="fl">~/govinda610</span> <span class="fa">&#10095;</span> echo "more on github.com/govinda610"
+  </div>
+</div>
+</div>
+
+<!-- RESEARCH TAB -->
+<div class="panel" id="tab-research">
+<div class="wrap" style="padding-top:3.5vh">
+  <div class="cmdl rv"><span class="ps">~/govinda610/research</span><span class="pm">&#10095;</span><span class="ty" style="color:#eef0f4;font-weight:500">ls -la &amp;&amp; cat interests.md</span></div>
+  <div class="out rv">
+    <div class="file-tree" style="margin-bottom:16px">
+      <div><span class="sym">drwxr-xr-x&nbsp;</span><span class="dir">papers/</span></div>
+      <div><span class="sym">-rw-r--r--&nbsp;</span><span class="file paper">rlm-framework-draft.md</span><span style="color:var(--txt-f);font-size:11px"> // recursive self-improving LLMs</span></div>
+      <div><span class="sym">-rw-r--r--&nbsp;</span><span class="file paper">ecg-ai-india-proposal.md</span><span style="color:var(--txt-f);font-size:11px"> // medical AI for Tier-2/3 cities</span></div>
+      <div><span class="sym">-rw-r--r--&nbsp;</span><span class="file plan">arc-agi3-odysseus.md</span><span style="color:var(--txt-f);font-size:11px"> // replication plan</span></div>
+      <div><span class="sym">-rw-r--r--&nbsp;</span><span class="file">interests.md</span></div>
+    </div>
+    <div class="ri-card"><h3>Mechanistic Interpretability</h3><p>SAELens, TransformerLens, activation steering, induction heads, circuit analysis, hallucination detection. Goal: understand what models actually compute.</p><div class="meta">active study &middot; target: replication of Anthropic interp papers</div></div>
+    <div class="ri-card"><h3>Fundamental Architecture Research</h3><p>Attention variants (MLA, GQA, sparse), hybrid Mamba/SSM, looped transformers, diffusion LMs, energy-based models. Building nanoGPT&rarr;HRM from scratch.</p><div class="meta">active build &middot; ref: Karpathy, Elhage et al.</div></div>
+    <div class="ri-card"><h3>Recursive Self-Improving LLMs (RLM)</h3><p>Supervisor-subordinate training loop — larger model fine-tunes smaller from failure traces. Benchmarks graph-RAG vs PageIndex retrieval.</p><div class="meta">research draft &middot; training dynamics domain</div></div>
+    <div class="ri-card"><h3>ARC-AGI-3 / Odysseus Approach</h3><p>Replicating Odysseus for ARC-AGI-3. Incorporating Meta Hyperagent architecture for multi-agent abstract reasoning.</p><div class="meta">planned &middot; reasoning + agents</div></div>
+    <div class="ri-card"><h3>Medical Statistics (Published)</h3><p>Co-authored papers with a physician (grandfather) on clinical data analysis. Statistical methodology applied to real patient outcomes.</p><div class="meta">completed &middot; available on request</div></div>
+  </div>
+  <div class="foot">
+    <span class="fl">~/govinda610/research</span> <span class="fa">&#10095;</span> echo "ask the agent on home tab for paper details"
+  </div>
+</div>
+</div>
+
+<!-- EXP TAB -->
+<div class="panel" id="tab-exp">
+<div class="wrap" style="padding-top:3.5vh">
+  <div class="cmdl rv"><span class="ps">~/govinda610</span><span class="pm">&#10095;</span><span class="ty" style="color:#eef0f4;font-weight:500">git log --all --format=career</span></div>
+  <div class="out rv" style="margin-top:16px">
+    <div class="gl-line"><div class="gl-dot"><span class="active"></span></div><div class="gl-body"><div class="hash">HEAD &mdash; 2024&ndash;present</div><div class="title">Senior Data Scientist / AI Engineer &mdash; Gartner India</div><div class="sub">Multi-agent RAG pipelines, LLM fine-tuning, agentic automation. Reducing insight generation from days to minutes for enterprise analytics clients.</div><div class="dates">Stack: LangGraph, Qdrant, FastAPI, OpenRouter</div></div></div>
+    <div class="gl-line"><div class="gl-dot"><span></span></div><div class="gl-body"><div class="hash">v2 &mdash; 2022&ndash;2024</div><div class="title">AI Scientist &mdash; Eli Lilly</div><div class="sub">Automated drug-discovery data science pipelines end-to-end. Compressed multi-day analysis to under an hour. Focused on agent tech, NLP, ML forecasting applied to pharma data.</div><div class="dates">Stack: Python, PyTorch, scikit-learn</div></div></div>
+    <div class="gl-line"><div class="gl-dot"><span></span></div><div class="gl-body"><div class="hash">v1 &mdash; 2020&ndash;2022</div><div class="title">Data Scientist &mdash; Citigroup</div><div class="sub">ML models and forecasting for financial analysis. Econometric methods applied to large transactional datasets.</div><div class="dates">Stack: Python, SQL, R, time-series</div></div></div>
+    <div class="gl-line"><div class="gl-dot"><span></span></div><div class="gl-body"><div class="hash">edu &mdash; 2018&ndash;2020</div><div class="title">MSc Economics</div><div class="sub">Research on AI's impact on low-skilled labour in service economies. UBI modelling. Female Labour Force Participation Rate analysis.</div></div></div>
+    <div class="gl-line"><div class="gl-dot"><span></span></div><div class="gl-body"><div class="hash">edu &mdash; 2015&ndash;2018</div><div class="title">BSc Economics</div><div class="sub">Micro/macro-economics, statistics, mathematics. Early interest in AI's economic implications.</div></div></div>
+  </div>
+  <div class="foot"><span class="fl">~/govinda610</span> <span class="fa">&#10095;</span> echo "CV available on request"</div>
+</div>
+</div>
+
+<!-- BLOG TAB -->
+<div class="panel" id="tab-blog">
+<div class="wrap" style="padding-top:3.5vh">
+  <div class="cmdl rv"><span class="ps">~/govinda610/blog</span><span class="pm">&#10095;</span><span class="ty" style="color:#eef0f4;font-weight:500">ls -lt ./posts/</span></div>
+  <div class="out rv" style="margin-top:4px;font-size:12.5px">
+    <div class="blog-row" style="color:var(--txt-f);font-size:10px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--line)"><span>date</span><span>title</span><span>tag</span></div>
+    <div class="blog-row"><span class="dt">coming soon</span><span class="title">Mechanistic Interpretability for Application Engineers</span><span class="btag" style="color:var(--purple)">interp</span></div>
+    <div class="blog-row"><span class="dt">coming soon</span><span class="title">What Multi-Agent Systems Actually Look Like in Practice</span><span class="btag" style="color:var(--amber)">agents</span></div>
+    <div class="blog-row"><span class="dt">coming soon</span><span class="title">From Economics to AI Research: Why I Changed Directions</span><span class="btag" style="color:var(--cyan)">essay</span></div>
+    <div class="blog-row"><span class="dt">coming soon</span><span class="title">The Jim Simons Model for AI Labs</span><span class="btag" style="color:var(--green)">opinion</span></div>
+    <div class="blog-row"><span class="dt">coming soon</span><span class="title">Medical AI Access in Tier-2 India</span><span class="btag" style="color:var(--red)">medical</span></div>
+    <p style="font-size:12px;color:var(--txt-f);margin-top:14px">// launching soon</p>
+  </div>
+  <div class="foot"><span class="fl">~/govinda610/blog</span> <span class="fa">&#10095;</span> echo "posts on AI research, agentic systems, econometrics, deep tech"</div>
+</div>
+</div>
+
+<!-- CERTS TAB -->
+<div class="panel" id="tab-certs">
+<div class="wrap" style="padding-top:3.5vh">
+  <div class="cmdl rv"><span class="ps">~/govinda610/certs</span><span class="pm">&#10095;</span><span class="ty" style="color:#eef0f4;font-weight:500">ls -la</span></div>
+  <div class="out rv" style="margin-top:4px">
+    <div class="cert-grid">
+      <div class="cert"><div class="icon">&#128203;</div><div class="name">Certifications loaded from /Documents/certifications/</div><div class="issuer">Populated during site build</div><div class="year">Phase 6 of portfolio build</div></div>
+    </div>
+    <p style="font-size:12px;color:var(--txt-f);margin-top:14px">// agent will scan and add certifications during build</p>
+  </div>
+  <div class="foot"><span class="fl">~/govinda610/certs</span> <span class="fa">&#10095;</span> echo "AI, ML, and data science certifications"</div>
+</div>
+</div>
+
+<script>
+/* ─── CONFIG ─── */
+const WORKER_URL=''; // set to your Cloudflare Worker URL to go live
+const DEMO_MODE=!WORKER_URL;
+const RATE_LIMIT=10;
+
+/* ─── PROJECTS ─── */
+const PROJECTS=[
+  {pid:'1337',st:'dev',lbl:'building',name:'jobhunt-ai',load:4,desc:'Multi-agent job-search orchestration. <span class="hl">LangGraph</span> fleet + <span class="hl">Playwright</span> browser automation + <span class="hl">Qdrant</span> vector memory. India-first: Naukri, Shine, Foundit. Heartbeat-driven proactive alerts.',guide:'A tireless robot that hunts for jobs 24/7 across Indian job sites and rewrites your application for each role.',tags:['LangGraph','Qdrant','Playwright','OpenRouter','FastAPI'],tc:''},
+  {pid:'0xRLM',st:'res',lbl:'research',name:'recursive-lm',load:3,desc:'<span class="hl">Supervisor-subordinate LLM architecture</span> &mdash; larger model continuously fine-tunes smaller from failure traces. Benchmarks graph-RAG vs flat PageIndex retrieval.',guide:'A teacher-AI that watches a student-AI fail and keeps tutoring it automatically.',tags:['PyTorch','Graph RAG','RL','Fine-tuning'],tc:'r'},
+  {pid:'ECG1',st:'que',lbl:'queued',name:'ecg-ai-technician',load:2,desc:'Fine-tuned <span class="hl">OCR + OpenTSLM</span> pipeline &mdash; digitises paper ECG scans and flags arrhythmias. Built for Tier-2/3 Indian cities with sparse cardiac technician coverage.',guide:'AI that reads paper ECG printouts and flags dangerous patterns where no specialist is available.',tags:['HunyanOCR','OpenTSLM','Medical AI','Fine-tuning'],tc:''},
+  {pid:'WIFI',st:'dev',lbl:'building',name:'wifi-doctor',load:3,desc:'Open-source ISP diagnostics. <span class="hl">Continuous monitoring</span>, session history, HTML audit reports, plain-English metric explanations.',guide:"Records your internet quality 24/7 so you have proof when your ISP says 'everything is fine'.",tags:['FastAPI','Chart.js','SQLite','Vanilla JS'],tc:''},
+  {pid:'NN-0',st:'res',lbl:'research',name:'nanogpt-to-hrm',load:2,desc:'<span class="hl">micrograd &rarr; nanoGPT &rarr; attention variants</span> (MLA, GQA, sparse), MoE, KV-caching, onward to hierarchical reasoning models. From-scratch study of how frontier models work.',guide:'Rebuilding a modern AI brain piece by piece from scratch.',tags:['PyTorch','Transformers','From Scratch'],tc:'r'},
+  {pid:'CHRO',st:'que',lbl:'queued',name:'project-chronos',load:2,desc:'Forecasting agent using <span class="hl">OpenTSLM + TimesFM</span> with Agent Lightning RL-based self-evolution. Research paper target: improving TimeCopilot.',guide:'An AI forecaster that gets better at predicting the future the more you use it.',tags:['OpenTSLM','TimesFM','RL','Forecasting'],tc:'p'},
+  {pid:'VIS',st:'dev',lbl:'building',name:'vis-coder',load:2,desc:'Visualisation agent generating dynamic <span class="hl">Apache ECharts</span> dashboards from natural language. Self-evolving via Agent Lightning RL.',guide:'Tell it what you want to visualise in plain English; it builds the interactive chart.',tags:['ECharts','LangGraph','RL'],tc:''},
+  {pid:'ODY',st:'que',lbl:'queued',name:'arc-agi3-odysseus',load:2,desc:'Replicating Odysseus approach on <span class="hl">ARC-AGI-3</span> with Meta Hyperagent multi-agent architecture for abstract reasoning.',guide:'Competing on one of the hardest AI reasoning benchmarks using a novel multi-agent approach.',tags:['Agents','Reasoning','ARC-AGI'],tc:'p'},
+  {pid:'IDP',st:'dev',lbl:'building',name:'agentic-idp',load:3,desc:'<span class="hl">Agentic Intelligent Document Processing</span> for e-commerce. Automated document intake, classification, extraction, workflow routing.',guide:'AI that reads and processes business documents automatically.',tags:['IDP','Agents','FastAPI'],tc:''},
+];
+function buildProjects(){
+  const c=document.getElementById('proj-list');
+  PROJECTS.forEach(p=>{
+    const loads='<i class="on"></i>'.repeat(p.load)+'<i></i>'.repeat(5-p.load);
+    const tags=p.tags.map(t=>`<span class="tag ${p.tc}">${t}</span>`).join('');
+    c.innerHTML+=`<div class="proc rv" onclick="toggleProc(this)"><div class="pr"><span class="pid">${p.pid}</span><span class="pst ${p.st}"><span class="d"></span>${p.lbl}</span><span class="pn">${p.name}<span class="arr">&#9656;</span></span><span class="pload">${loads}</span></div><div class="pb"><div class="pbi"><p class="pdesc">${p.desc}</p><div class="gi">&#128161; ${p.guide}</div><div class="tags">${tags}</div></div></div></div>`;
+  });
+}
+buildProjects();
+
+/* ─── BOOT ─── */
+const bootLines=[
+  "<span class='am'>govindOS</span> v4.0 &mdash; initializing portfolio...",
+  "[<span class='ok'>ok</span>] mounting /experience ......... 4 years, 3 companies",
+  "[<span class='ok'>ok</span>] loading agentic-ai modules .... LangGraph, RAG, multi-agent",
+  "[<span class='ok'>ok</span>] indexing 30+ project repositories",
+  "[<span class='ok'>ok</span>] govind-agent: "+(DEMO_MODE?"demo mode":"<span class='ok'>live</span>"),
+  "<span class='cy'>[net]</span> uplink to <span class='am'>frontier-labs</span> ... <span class='ok'>ready</span>",
+  "<span class='am'>session started.</span>"
+];
+let bootDone=false;
+function runBoot(){
+  const c=document.getElementById('bl-wrap');
+  bootLines.forEach((t,i)=>{const d=document.createElement('div');d.className='bl';d.innerHTML=t;c.appendChild(d);setTimeout(()=>d.classList.add('on'),i*220);});
+  setTimeout(endBoot,bootLines.length*220+550);
+}
+function endBoot(){
+  if(bootDone)return;bootDone=true;
+  document.getElementById('boot').classList.add('done');
+  initReveal();
+  agentBoot();
+}
+document.addEventListener('keydown',endBoot,{once:true});
+document.getElementById('boot').addEventListener('click',endBoot,{once:true});
+runBoot();
+
+/* ─── CLOCK ─── */
+function tick(){const d=new Date(),p=n=>String(n).padStart(2,'0');document.getElementById('clk').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
+setInterval(tick,1000);tick();
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+/* ─── PARTICLES ─── */
+const cv=document.getElementById('cv'),cx=cv.getContext('2d');let pts=[],W,H;
+function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+function initPts(){pts=[];const n=Math.min(50,Math.floor(W*H/28000));for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.14,vy:(Math.random()-.5)*.14,r:Math.random()*1.3+.4});}
+function drawPts(){cx.clearRect(0,0,W,H);for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fillStyle='rgba(255,180,84,.28)';cx.fill();}for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const a=pts[i],b=pts[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.hypot(dx,dy);if(d<110){cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.strokeStyle='rgba(92,207,230,'+(0.06*(1-d/110))+')';cx.lineWidth=.5;cx.stroke();}}requestAnimationFrame(drawPts);}
+resize();initPts();drawPts();
+addEventListener('resize',()=>{resize();initPts();});
+
+/* ─── TABS ─── */
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===id));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+id));
+  if(id==='home'){setTimeout(initReveal,50);setTimeout(()=>document.getElementById('tui-inp').focus(),200);}
+}
+
+/* ─── MODE ─── */
+function toggleMode(){
+  document.body.classList.toggle('guided');
+  const g=document.body.classList.contains('guided');
+  document.getElementById('mode-chip').classList.toggle('guided',g);
+  document.getElementById('mode-l').textContent=g?'guided':'expert';
+  switchTab('home');
+}
+function toggleCRT(){document.body.classList.toggle('crt-off');document.getElementById('crt-l').textContent=document.body.classList.contains('crt-off')?'CRT off':'CRT';}
+function toggleProc(el){el.classList.toggle('open');}
+
+/* ─── REVEAL ─── */
+let ioInited=false;
+function initReveal(){
+  if(ioInited)return;ioInited=true;
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting)return;
+      const t=e.target;
+      if(t.hasAttribute('data-cmd')){const sp=t.querySelector('.ty');if(sp&&!sp.dataset.done){sp.dataset.done='1';const txt=sp.dataset.type||sp.textContent;sp.textContent='';let i=0;(function s(){if(i<=txt.length){sp.textContent=txt.slice(0,i);i++;setTimeout(s,35);}})();}}
+      if(t.classList.contains('rv')){
+        const sibs=[...t.parentElement.querySelectorAll('.rv')];const idx=sibs.indexOf(t);
+        setTimeout(()=>{t.classList.add('in');t.querySelectorAll('.cap-f').forEach(f=>f.style.width=f.dataset.pct+'%');t.querySelectorAll('[data-count]').forEach(el=>{if(el.dataset.done)return;el.dataset.done='1';const tgt=+el.dataset.count,sfx=el.dataset.sfx||'';let v=0;const inc=tgt/34;(function s(){v+=inc;if(v<tgt){el.textContent=Math.floor(v)+sfx;requestAnimationFrame(s);}else el.textContent=tgt+sfx;})();});},Math.min(idx,7)*65);
+      }
+      io.unobserve(t);
+    });
+  },{threshold:0.15});
+  document.querySelectorAll('[data-cmd],.rv').forEach(el=>io.observe(el));
+}
+
+/* ─── TUI AGENT (Claude Code style) ─── */
+const tuiOut=document.getElementById('tui-out');
+const tuiInp=document.getElementById('tui-inp');
+const chatHistory=[];
+
+function tuiAppend(html){tuiOut.insertAdjacentHTML('beforeend',html);tuiOut.scrollTop=tuiOut.scrollHeight;}
+
+function tuiWelcome(){
+  const demoNote=DEMO_MODE?'<span class="dim">  demo mode &mdash; set WORKER_URL for live AI</span>\n':'';
+  tuiAppend(`<div class="tui-welcome"><span class="top">&#9581;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9585;</span>
+<span class="top">&#9474;</span>  <span class="hl">&#10022; govind-agent</span> &mdash; ask me about my work &amp; research          <span class="top">&#9474;</span>
+<span class="top">&#9474;</span>  try: <span class="cy">/projects</span>  <span class="cy">/research</span>  <span class="cy">/goals</span>  <span class="cy">/hire</span>  or just ask   <span class="top">&#9474;</span>
+${demoNote}<span class="top">&#9584;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9583;</span></div>`);
+}
+
+function tuiUserMsg(txt){
+  tuiAppend(`<div class="tui-turn"><div class="tui-sep"></div><div class="tui-user"><span class="u-path">visitor</span><span class="u-sym">&#10095;</span><span class="u-msg">${txt.replace(/</g,'&lt;')}</span></div></div>`);
+}
+
+function tuiTypingStart(){
+  tuiAppend(`<div class="tui-typing" id="tui-typing"><span class="t-bul">&#9679;</span><div class="dots"><span></span><span></span><span></span></div></div>`);
+  tuiOut.scrollTop=tuiOut.scrollHeight;
+}
+function tuiTypingEnd(){const d=document.getElementById('tui-typing');if(d)d.remove();}
+
+function tuiAgentMsg(text,thinkingText){
+  let thinkBlock='';
+  if(thinkingText){
+    thinkBlock=`<div class="tui-thinking"><span class="t-bul">&#9632;</span><div class="tui-thinking-inner"><div class="tui-thinking-toggle" onclick="this.nextElementSibling.classList.toggle('open')"><span class="done-spin">&#9632;</span> reasoning <span style="font-size:10px;color:var(--txt-f)">(expand)</span></div><div class="tui-thinking-text">${thinkingText.replace(/</g,'&lt;')}</div></div></div>`;
+  }
+  const formatted=text.replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>');
+  tuiAppend(`${thinkBlock}<div class="tui-agent-turn"><div class="tui-agent-line"><span class="tui-bullet">&#9679;</span><div class="tui-agent-body"><p>${formatted}</p></div></div></div>`);
+  tuiOut.scrollTop=tuiOut.scrollHeight;
+}
+
+/* ─── DEMO RESPONSES ─── */
+const DEMO={
+  default:["I'm building a lot right now — JobHuntAI is probably the project I'm most invested in. It's a multi-agent LangGraph system that hunts for jobs across Indian portals, adapts resumes with vision models, and sends proactive alerts. The interesting part architecturally is the heartbeat driver — an agent that wakes up periodically and checks conditions without human prompting.\n\nWhat would you like to know more about?",
+    "My background sits at an interesting intersection: I started with an MSc in Economics studying how AI displaces labour in countries like India, then went deep into building the systems I was studying — Citigroup, Eli Lilly, now Gartner. The question that drives me now is mechanistic interpretability: not just building systems that work, but understanding *why* they work.\n\nFeel free to ask about any specific area.",
+    "The goal is to move from application-layer AI into fundamental research. I want to work on training dynamics, new attention mechanisms, and interpretability at a lab like Anthropic or DeepMind. In parallel I'm pursuing freelance work and eventually a deep-tech startup or quant fund. Long-term: build something that matters at civilisational scale."],
+  project:["JobHuntAI is my flagship agentic project — it orchestrates a fleet of LangGraph agents across Indian job portals. The resume engine uses vision models to adapt the CV for each role. Qdrant stores vector memory of past applications. I'm calling the design pattern a 'heartbeat architecture' — the agent wakes up proactively rather than waiting to be prompted.\n\nAsk me about any other project — try /projects for the full list.",
+    "RLM (Recursive Language Model) is my most research-oriented project. The idea: a supervisor model that continuously fine-tunes a subordinate from its own failure traces. It's exploring whether self-improvement can become a training paradigm rather than just a deployment trick. Currently comparing graph-based RAG retrieval against flat PageIndex across standard benchmarks.",
+    "The ECG AI Technician is probably closest to my heart. Many Tier-2 and Tier-3 Indian cities have patients who need cardiac evaluation but no trained technician available. I'm building a pipeline that digitises paper ECG scans and flags arrhythmias — a genuine impact project where the technical challenge (fine-tuned OCR + OpenTSLM) directly serves a real human need."],
+  hire:["I'm actively looking for researcher roles at frontier labs — Anthropic, DeepMind, and OpenAI are my primary targets. I'm also open to senior AI engineering roles with real scope for research contributions, and freelance work in agentic systems and RAG pipelines.\n\nBest way to reach me: govindmittal610@gmail.com"],
+  research:["My research interests span both applied and fundamental AI. On the applied side: agentic orchestration, RAG and retrieval, LLM fine-tuning. On the fundamental side: mechanistic interpretability (SAELens, TransformerLens, circuit analysis), new attention mechanisms (MLA, GQA, sparse), hybrid Mamba/SSM architectures, and training dynamics.\n\nThe unifying question: what makes a model *understand* rather than statistically approximate the world?",
+    "The project I find most intellectually exciting right now is the nanoGPT-to-HRM implementation — rebuilding transformers from scratch, then adding modern improvements one by one (MLA, GQA, MoE, KV caching), aiming eventually at a hierarchical reasoning model. It's Karpathy's bottom-up approach, extended toward the frontier."]
+};
+
+function demoResponse(msg){
+  const lc=msg.toLowerCase();
+  if(lc.includes('project')||lc.includes('build')||lc.includes('work'))return DEMO.project[Math.floor(Math.random()*DEMO.project.length)];
+  if(lc.includes('hire')||lc.includes('job')||lc.includes('contact')||lc.includes('work together'))return DEMO.hire[0];
+  if(lc.includes('research')||lc.includes('interp')||lc.includes('architecture'))return DEMO.research[Math.floor(Math.random()*DEMO.research.length)];
+  if(lc.startsWith('/projects'))return"Current projects (by impact):\n\n● jobhunt-ai — multi-agent job search [🚧 building]\n● recursive-lm — self-improving LLM framework [🔬 research]\n● ecg-ai-technician — medical AI for rural India [📐 queued]\n● wifi-doctor — ISP diagnostics [🚧 building]\n● nanogpt-to-hrm — transformers from scratch [🔬 research]\n\nSee the Projects tab for the full list with details.";
+  if(lc.startsWith('/research'))return"Research focus areas:\n\n● Mechanistic interpretability (SAELens, TransformerLens)\n● Fundamental architectures (MLA, Mamba, looped transformers)\n● RLM — recursive self-improving LLM framework\n● ARC-AGI-3 / Odysseus approach replication\n● Medical AI for underserved India\n\nSee the Research tab for more detail.";
+  if(lc.startsWith('/goals'))return"Running in parallel:\n\n● [research] Researcher role @ Anthropic / DeepMind / OpenAI\n● [build] Freelance AI engineering → consultancy → startup\n● [vision] Deep-tech company solving a hard world problem\n● [vision] OR quant fund with systematic market edge — Jim Simons model";
+  if(lc.startsWith('/hire'))return"I'm open to:\n\n● Researcher roles at frontier AI labs\n● Senior AI engineering with real research scope\n● Freelance: agentic systems, RAG pipelines, LLM fine-tuning\n\nReach me: govindmittal610@gmail.com";
+  if(lc==='help'||lc==='/help')return"Available commands:\n\n/projects — current builds & research\n/research — research interests and papers\n/goals — career ambitions\n/hire — work together\n\nOr just ask anything freely — I'll respond as Govind.";
+  return DEMO.default[Math.floor(Math.random()*DEMO.default.length)];
+}
+
+/* ─── RATE LIMITING ─── */
+function getRL(){try{const d=JSON.parse(localStorage.getItem('gv_rl')||'{}');if(d.date!==new Date().toDateString())return{count:0,date:new Date().toDateString()};return d;}catch{return{count:0,date:new Date().toDateString()};}}
+function incRL(){const d=getRL();d.count++;localStorage.setItem('gv_rl',JSON.stringify(d));updateRLUI();}
+function updateRLUI(){const d=getRL();document.getElementById('q-used').textContent=d.count;if(d.count>=RATE_LIMIT){tuiInp.disabled=true;tuiInp.placeholder='daily limit reached — return tomorrow';}}
+updateRLUI();
+
+async function sendMsg(){
+  const txt=(tuiInp.value||'').trim();if(!txt)return;
+  const d=getRL();if(d.count>=RATE_LIMIT)return;
+  tuiInp.value='';
+  tuiUserMsg(txt);
+  chatHistory.push({role:'user',content:txt});
+  tuiTypingStart();
+  document.getElementById('agent-status').textContent='thinking...';
+  try{
+    if(DEMO_MODE){
+      await new Promise(r=>setTimeout(r,700+Math.random()*600));
+      tuiTypingEnd();
+      const resp=demoResponse(txt);
+      tuiAgentMsg(resp);
+      chatHistory.push({role:'assistant',content:resp});
+    } else {
+      const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory.slice(-10)})});
+      tuiTypingEnd();
+      if(!res.ok)throw new Error('worker error '+res.status);
+      const reader=res.body.getReader();const dec=new TextDecoder();
+      let thinkBuf='',textBuf='';
+      while(true){
+        const{done,value}=await reader.read();if(done)break;
+        for(const line of dec.decode(value).split('\n')){
+          if(!line.startsWith('data: '))continue;
+          try{const ev=JSON.parse(line.slice(6));if(ev.type==='thinking')thinkBuf+=ev.content||'';else if(ev.type==='text')textBuf+=ev.content||'';}catch{}
+        }
+      }
+      tuiAgentMsg(textBuf||'(no response)',thinkBuf||null);
+      chatHistory.push({role:'assistant',content:textBuf});
+    }
+  }catch(e){tuiTypingEnd();tuiAgentMsg('Connection issue. Try again or reach me directly: govindmittal610@gmail.com');}
+  incRL();document.getElementById('agent-status').textContent='ready';
+}
+
+function agentBoot(){
+  tuiWelcome();
+  setTimeout(()=>{tuiAgentMsg(DEMO_MODE?"Hi. I'm Govind's AI &mdash; running in demo mode with pre-written responses. Ask about my projects, research, background, or how to work together.\n\nFor the full experience, connect a Cloudflare Worker backend.":"Hi. I'm Govind's AI. Ask me anything about my work, research, or how we could collaborate. I'll respond as him in first person.");},400);
+  if(!DEMO_MODE){document.getElementById('agent-mode-label').textContent='live';}
+}
+
+tuiInp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
+</script>
+</body>
+</html>
