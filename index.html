@@ -391,7 +391,7 @@ body.guided .tui-guided-tip{display:block}
     <p class="hrole">I build <b>autonomous AI systems</b> &mdash; and study what happens inside them.</p>
     <div class="hstat">
       <i><span class="pulse"></span><span class="v">online &amp; available</span></i>
-      <i><span style="color:var(--txt-f)">role</span> <span class="v">snr. ai scientist/engineer @ gartner</span></i>
+      <i><span style="color:var(--txt-f)">role</span> <span class="v">snr. ai scientist/engineer @ gartner &middot; ex-lilly &middot; ex-citi</span></i>
       <i><span style="color:var(--txt-f)">seeking</span> <span class="v">researcher &amp; senior AI roles</span></i>
     </div>
   </div>
@@ -631,13 +631,30 @@ const PROJECTS=[
   {pid:'ODY',st:'que',lbl:'queued',name:'arc-agi3-odysseus',load:2,desc:'Replicating Odysseus approach on <span class="hl">ARC-AGI-3</span> with Meta Hyperagent multi-agent architecture for abstract reasoning.',guide:'Competing on one of the hardest AI reasoning benchmarks using a novel multi-agent approach.',tags:['Agents','Reasoning','ARC-AGI'],tc:'p'},
   {pid:'IDP',st:'dev',lbl:'building',name:'agentic-idp',load:3,desc:'<span class="hl">Agentic Intelligent Document Processing</span> for e-commerce. Automated document intake, classification, extraction, workflow routing.',guide:'AI that reads and processes business documents automatically.',tags:['IDP','Agents','FastAPI'],tc:''},
 ];
-function buildProjects(){
+/* live from the roadmap feed — single source of truth (only pushed/real repos) */
+const PROJECTS_FEED='https://roadmap-api.govindmittal610.workers.dev/projects.public.json';
+function pesc(s){return String(s==null?'':s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
+const PSTATUS={done:{c:'done',l:'shipped',load:4},doing:{c:'dev',l:'building',load:3},planned:{c:'que',l:'planned',load:2},blocked:{c:'res',l:'blocked',load:1}};
+function procRow(p,i){
+  const sm=PSTATUS[p.status]||PSTATUS.planned;
+  const pid=((p.codename||p.id||'proc')+'').replace(/[^a-z0-9]/gi,'').slice(0,6).toUpperCase()||'PROC';
+  const loads='<i class="on"></i>'.repeat(sm.load)+'<i></i>'.repeat(5-sm.load);
+  const tags=(p.tags||[]).slice(0,5).map(t=>`<span class="tag">${pesc(t)}</span>`).join('');
+  const gh=p.github?`<a class="lk" href="${pesc(p.github)}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="gx">&#8997;</span>${pesc(p.github.replace('https://github.com/',''))}</a>`:'';
+  return `<div class="proc${i<2?' open':''}" onclick="toggleProc(this)"><div class="pr"><span class="pid">${pesc(pid)}</span><span class="pst ${sm.c}"><span class="d"></span>${sm.l}</span><span class="pn">${pesc(p.title)}<span class="arr">&#9656;</span></span><span class="pload">${loads}</span></div><div class="pb"><div class="pbi"><p class="pdesc">${pesc(p.summary||'')}</p>${tags?`<div class="tags">${tags}</div>`:''}${gh?`<div class="lks" style="margin-top:10px">${gh}</div>`:''}</div></div></div>`;
+}
+async function buildProjects(){
   const c=document.getElementById('proj-list');
-  PROJECTS.forEach(p=>{
-    const loads='<i class="on"></i>'.repeat(p.load)+'<i></i>'.repeat(5-p.load);
-    const tags=p.tags.map(t=>`<span class="tag ${p.tc}">${t}</span>`).join('');
-    c.innerHTML+=`<div class="proc rv" onclick="toggleProc(this)"><div class="pr"><span class="pid">${p.pid}</span><span class="pst ${p.st}"><span class="d"></span>${p.lbl}</span><span class="pn">${p.name}<span class="arr">&#9656;</span></span><span class="pload">${loads}</span></div><div class="pb"><div class="pbi"><p class="pdesc">${p.desc}</p><div class="gi">&#128161; ${p.guide}</div><div class="tags">${tags}</div></div></div></div>`;
-  });
+  try{
+    const res=await fetch(PROJECTS_FEED,{cache:'no-store'});
+    if(!res.ok)throw new Error('feed '+res.status);
+    let items=(await res.json()).filter(p=>p.github);
+    const ord={done:0,doing:1,planned:2,blocked:3};
+    items.sort((a,b)=>(ord[a.status]??9)-(ord[b.status]??9));
+    c.innerHTML=items.length?items.map(procRow).join(''):'<p style="color:var(--txt-d);font-size:12.5px">No projects yet.</p>';
+  }catch(e){
+    c.innerHTML='<p style="color:var(--txt-d);font-size:12.5px">Couldn\'t load live projects &mdash; see <a class="lk" href="https://github.com/govinda610" target="_blank" rel="noopener">github.com/govinda610</a></p>';
+  }
 }
 buildProjects();
 
