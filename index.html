@@ -223,6 +223,13 @@ body.guided .gi{display:block}
 .hstat{margin-top:20px;font-size:13.5px;color:var(--txt-d);display:flex;flex-wrap:wrap;gap:7px 22px}
 .hstat i{font-style:normal}
 .hstat .v{color:var(--cyan)}
+.hcta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.hbtn{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--txt-d);background:var(--surf);border:1px solid var(--line);border-radius:7px;padding:9px 16px;text-decoration:none;transition:all .15s}
+.hbtn:hover{border-color:var(--line-hi);color:var(--txt);transform:translateY(-2px)}
+.hbtn .gx{font-size:12px;color:var(--txt-f)}
+.hbtn.primary{color:#0a0c11;background:var(--amber);border-color:var(--amber);font-weight:600}
+.hbtn.primary .gx{color:#0a0c11}
+.hbtn.primary:hover{background:#ffc46b;border-color:#ffc46b;color:#0a0c11}
 .pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 7px var(--green);animation:beat 1.6s ease-in-out infinite;vertical-align:middle;margin-right:5px}
 @keyframes beat{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.45);opacity:.4}}
 
@@ -413,6 +420,38 @@ body.guided .tui-guided-tip{display:block}
 .foot{border-top:1px solid var(--line);padding:24px 0 44px;font-size:11px;color:var(--txt-f)}
 .foot .fl{color:var(--cyan)}.foot .fa{color:var(--amber)}
 
+/* contact tab */
+.ct-intro{font-size:13.5px;color:var(--txt-d);line-height:1.65;max-width:74ch;margin-bottom:22px}
+.ct-intro b{color:var(--txt)}
+.ct-top{display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start}
+.ct-id{background:var(--surf);border:1px solid var(--line);border-radius:9px;padding:20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
+.ct-img{width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid var(--line-hi);box-shadow:0 0 0 4px rgba(255,180,84,.06)}
+.ct-name{font-size:17px;color:#f4f6fa;font-weight:600}
+.ct-role{font-size:12px;color:var(--cyan);margin-top:3px}
+.ct-online{font-size:11px;color:var(--txt-d);margin-top:9px;display:flex;align-items:center;justify-content:center;gap:2px}
+.ct-channels{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start}
+.ct-chan{display:flex;align-items:center;gap:12px;background:var(--surf);border:1px solid var(--line);border-radius:8px;padding:12px 14px;text-decoration:none;transition:all .15s}
+.ct-chan:hover{border-color:var(--amber);transform:translateY(-2px)}
+.ct-chan .ic{width:30px;height:30px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--bg-e);border:1px solid var(--line-hi);border-radius:7px;font-size:15px;color:var(--amber);font-weight:600}
+.ct-chan .cv{display:flex;flex-direction:column;min-width:0;flex:1}
+.ct-chan .cv b{font-size:12.5px;color:#eef0f4;font-weight:500}
+.ct-chan .cv i{font-size:11px;color:var(--txt-f);font-style:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ct-chan .go{color:var(--txt-f);font-size:11px;transition:color .15s}
+.ct-chan:hover .go{color:var(--amber)}
+.ct-form{margin-top:16px;background:var(--surf);border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.ct-form-h{display:flex;align-items:center;gap:7px;padding:11px 15px;background:var(--bg-e);border-bottom:1px solid var(--line);font-size:12px;color:var(--txt-d)}
+.ct-form-h i{width:11px;height:11px;border-radius:50%;display:block}
+.ct-form-h i.r{background:#ff6057}.ct-form-h i.y{background:#febc2e}.ct-form-h i.g{background:#28c840}
+.ct-form-h span{margin-left:7px;letter-spacing:.04em}
+.ct-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px}
+.ct-f{display:flex;flex-direction:column;gap:5px}
+.ct-f span{font-size:11px;color:var(--amber-d,var(--amber));letter-spacing:.06em;text-transform:uppercase}
+.ct-f input,.ct-f textarea{font-family:var(--mono);font-size:13px;color:var(--txt);background:var(--bg-e);border:1px solid var(--line-hi);border-radius:6px;padding:10px 12px;width:100%;resize:vertical}
+.ct-f input:focus,.ct-f textarea:focus{outline:none;border-color:var(--amber)}
+.ct-send{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:2px}
+.ct-note{font-size:11px;color:var(--txt-f)}
+@media(max-width:760px){.ct-top{grid-template-columns:1fr}.ct-channels{grid-template-columns:1fr}}
+
 @media(max-width:640px){
   body{font-size:14px}
   .cap{grid-template-columns:98px 1fr 34px;gap:9px}.cap-n{font-size:11px}
@@ -461,6 +500,7 @@ a:focus-visible,.tab:focus-visible,.chip:focus-visible,.proc:focus-visible,.lk:f
     <div class="tab" data-tab="exp" onclick="switchTab('exp')"><span class="ti">&#9677;</span>exp</div>
     <div class="tab" data-tab="blog" onclick="switchTab('blog')"><span class="ti">&#9998;</span>blog</div>
     <div class="tab" data-tab="certs" onclick="switchTab('certs')"><span class="ti">&#10003;</span>certs</div>
+    <div class="tab" data-tab="contact" onclick="switchTab('contact')"><span class="ti">&#9993;</span>contact</div>
   </div>
   <div class="gbanner"><div>guided mode &mdash; <span>click tabs above to explore. plain-english notes appear in the narrative sections below.</span></div></div>
 </div>
@@ -476,6 +516,12 @@ a:focus-visible,.tab:focus-visible,.chip:focus-visible,.proc:focus-visible,.lk:f
       <i><span class="pulse"></span><span class="v">online &amp; available</span></i>
       <i><span style="color:var(--txt-f)">role</span> <span class="v">snr. ai scientist/engineer @ gartner &middot; ex-lilly &middot; ex-citi</span></i>
       <i><span style="color:var(--txt-f)">seeking</span> <span class="v">researcher &amp; senior AI roles</span></i>
+    </div>
+    <div class="hcta">
+      <a class="hbtn primary" href="Govind_Mittal_Resume.pdf" target="_blank" rel="noopener" download><span class="gx">&#8615;</span>résumé</a>
+      <a class="hbtn" href="#" onclick="switchTab('contact');return false"><span class="gx">&#9993;</span>get in touch</a>
+      <a class="hbtn" href="https://github.com/govinda610" target="_blank" rel="noopener"><span class="gx">&#9670;</span>github</a>
+      <a class="hbtn" href="https://www.linkedin.com/in/govindmittal610" target="_blank" rel="noopener"><span class="gx">&#9670;</span>linkedin</a>
     </div>
   </div>
 
@@ -680,6 +726,50 @@ a:focus-visible,.tab:focus-visible,.chip:focus-visible,.proc:focus-visible,.lk:f
 </div>
 </div>
 
+<!-- CONTACT TAB -->
+<div class="panel" id="tab-contact">
+<div class="wrap" style="padding-top:3.5vh">
+  <div class="cmdl rv"><span class="ps">~/govinda610/contact</span><span class="pm">&#10095;</span><span class="ty" style="color:#eef0f4;font-weight:500">./establish-uplink.sh</span></div>
+  <div class="out rv">
+    <p class="ct-intro">Open to <b>research &amp; senior AI roles</b>, <b>freelance / consulting</b>, collaborations, and good conversations about agents, interpretability, and deep tech. Pick a channel &mdash; or beam a transmission below.</p>
+
+    <div class="ct-top">
+      <div class="ct-id">
+        <img src="govind.jpg" alt="Govind Mittal" class="ct-img" loading="lazy">
+        <div>
+          <div class="ct-name">Govind Mittal</div>
+          <div class="ct-role">AI Engineer &amp; Researcher &middot; India</div>
+          <div class="ct-online"><span class="pulse"></span>online &amp; usually replies within a day</div>
+        </div>
+      </div>
+      <div class="ct-channels">
+        <a class="ct-chan" href="mailto:govindmittal610@gmail.com"><span class="ic">&#9993;</span><span class="cv"><b>email</b><i>govindmittal610@gmail.com</i></span><span class="go">&#10095;</span></a>
+        <a class="ct-chan" href="https://wa.me/919079091295" target="_blank" rel="noopener"><span class="ic">&#9990;</span><span class="cv"><b>whatsapp</b><i>chat &mdash; tap to open</i></span><span class="go">&#10095;</span></a>
+        <a class="ct-chan" href="https://www.linkedin.com/in/govindmittal610" target="_blank" rel="noopener"><span class="ic">in</span><span class="cv"><b>linkedin</b><i>/in/govindmittal610</i></span><span class="go">&#10095;</span></a>
+        <a class="ct-chan" href="https://x.com/GovindM45789814" target="_blank" rel="noopener"><span class="ic">&#120143;</span><span class="cv"><b>x / twitter</b><i>@GovindM45789814</i></span><span class="go">&#10095;</span></a>
+        <a class="ct-chan" href="https://github.com/govinda610" target="_blank" rel="noopener"><span class="ic">&#9670;</span><span class="cv"><b>github</b><i>github.com/govinda610</i></span><span class="go">&#10095;</span></a>
+      </div>
+    </div>
+
+    <div class="ct-form">
+      <div class="ct-form-h"><i class="r"></i><i class="y"></i><i class="g"></i><span>new transmission</span></div>
+      <div class="ct-body">
+        <label class="ct-f"><span>from</span><input id="ct-name" autocomplete="name" placeholder="your name"></label>
+        <label class="ct-f"><span>reply-to</span><input id="ct-email" type="email" autocomplete="email" placeholder="you@company.com"></label>
+        <label class="ct-f"><span>message</span><textarea id="ct-msg" rows="4" placeholder="what's on your mind? roles, collabs, freelance, ideas..."></textarea></label>
+        <div class="ct-send">
+          <button class="hbtn primary" type="button" onclick="sendTransmission()"><span class="gx">&#10148;</span>send transmission</button>
+          <span class="ct-note" id="ct-note">opens your mail app addressed to me &mdash; or just email directly above.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="fl">~/govinda610/contact</span> <span class="fa">&#10095;</span> echo "let's build something."
+  </div>
+</div>
+</div>
+
 <script>
 /* ─── CONFIG ─── */
 const WORKER_URL=''; // set to your Cloudflare Worker URL to go live
@@ -760,6 +850,19 @@ function buildPapers(){
   if(c) c.innerHTML=PAPERS.map(paperCard).join('');
 }
 buildPapers();
+
+/* ─── CONTACT ─── */
+function sendTransmission(){
+  const name=(document.getElementById('ct-name').value||'').trim();
+  const email=(document.getElementById('ct-email').value||'').trim();
+  const msg=(document.getElementById('ct-msg').value||'').trim();
+  const note=document.getElementById('ct-note');
+  if(!msg){ note.textContent='✗ add a message first.'; note.style.color='#ff6057'; return; }
+  const subject=encodeURIComponent(name?('Portfolio message from '+name):'Portfolio message');
+  const body=encodeURIComponent(msg+'\n\n— '+(name||'(no name)')+(email?(' <'+email+'>'):''));
+  window.location.href='mailto:govindmittal610@gmail.com?subject='+subject+'&body='+body;
+  note.textContent='✓ opening your mail app…'; note.style.color='var(--green)';
+}
 
 /* ─── BOOT ─── */
 const bootLines=[
