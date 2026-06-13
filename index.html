@@ -138,6 +138,24 @@ body.guided .gi{display:block}
 .lk:hover{border-color:var(--amber);color:var(--amber);transform:translateY(-2px)}
 .lk .gx{color:var(--amber)}
 
+/* project cards */
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch}
+.pcard{display:flex;flex-direction:column;background:var(--surf);border:1px solid var(--line);border-radius:9px;overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s;text-decoration:none}
+.pcard:hover{border-color:var(--line-hi);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.pcard-img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top center;background:var(--bg-e);border-bottom:1px solid var(--line);display:block}
+.pcard-ph{width:100%;aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--surf-hi),var(--bg-e));border-bottom:1px solid var(--line)}
+.pcard-ph span{font-size:28px;color:var(--line-hi)}
+.pcard-body{display:flex;flex-direction:column;gap:9px;padding:14px 16px 16px;flex:1}
+.pcard-head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.pcard-head .pst{flex-shrink:0}
+.pcard-title{font-size:14px;color:#eef0f4;font-weight:600;line-height:1.3}
+.pcard-blurb{font-size:12px;color:var(--txt-d);line-height:1.6;margin:0}
+.pcard .tags{margin-top:2px}
+.pcard-gh{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;color:var(--txt-f);margin-top:auto;padding-top:4px;transition:color .15s}
+.pcard-gh .gx{color:var(--amber)}
+.pcard:hover .pcard-gh{color:var(--amber)}
+@media(max-width:760px){.pgrid{grid-template-columns:1fr}}
+
 /* hero */
 .hero{padding:6vh 0 0}
 .hm{font-size:11.5px;color:var(--txt-f);letter-spacing:.14em;text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:9px}
@@ -518,10 +536,9 @@ a:focus-visible,.tab:focus-visible,.chip:focus-visible,.proc:focus-visible,.lk:f
 <div class="panel" id="tab-projects">
 <div class="wrap">
   <div class="block rv" style="border-top:none;padding-top:3.5vh">
-    <div style="font-size:11px;color:var(--txt-f);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px">~/govinda610/projects &mdash; ps aux</div>
-    <p style="font-size:12.5px;color:var(--txt-d);margin-bottom:16px">Click any process to expand. Sorted by impact.</p>
-    <div class="psh"><span>PID</span><span>STATUS</span><span>PROCESS</span><span>LOAD</span></div>
-    <div id="proj-list"></div>
+    <div style="font-size:11px;color:var(--txt-f);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px">~/govinda610/projects &mdash; ls -la</div>
+    <p style="font-size:12.5px;color:var(--txt-d);margin-bottom:18px">Shipped &amp; in-flight work. Click a card to open the repo.</p>
+    <div id="proj-list" class="pgrid"></div>
   </div>
   <div class="foot">
     <span class="fl">~/govinda610</span> <span class="fa">&#10095;</span> echo "more on github.com/govinda610"
@@ -649,17 +666,16 @@ const DETAIL_URL='projects.detail.json';
 function pesc(s){return String(s==null?'':s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
 const PSTATUS={done:{c:'done',l:'shipped',load:4},doing:{c:'dev',l:'building',load:3},planned:{c:'que',l:'planned',load:2},blocked:{c:'res',l:'blocked',load:1}};
 function slugOf(p){return p.github?p.github.replace(/^https?:\/\/github\.com\/[^/]+\//i,'').replace(/\/$/,''):'';}
-function procRow(p,i){
+function procCard(p){
   const sm=PSTATUS[p.status]||PSTATUS.planned;
   const d=p._detail||{};
-  const pid=((p.codename||p.id||'proc')+'').replace(/[^a-z0-9]/gi,'').slice(0,6).toUpperCase()||'PROC';
-  const loads='<i class="on"></i>'.repeat(sm.load)+'<i></i>'.repeat(5-sm.load);
   const blurb=d.blurb||p.summary||'';
   const techArr=(d.tech&&d.tech.length)?d.tech:(p.tags||[]);
-  const tags=techArr.slice(0,7).map(t=>`<span class="tag">${pesc(t)}</span>`).join('');
-  const prev=d.preview?`<img class="pprev" src="${pesc(d.preview)}" alt="${pesc(p.title)} preview" loading="lazy">`:'';
-  const gh=p.github?`<a class="lk" href="${pesc(p.github)}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="gx">&#8997;</span>view on github</a>`:'';
-  return `<div class="proc${i<2?' open':''}" onclick="toggleProc(this)"><div class="pr"><span class="pid">${pesc(pid)}</span><span class="pst ${sm.c}"><span class="d"></span>${sm.l}</span><span class="pn">${pesc(p.title)}<span class="arr">&#9656;</span></span><span class="pload">${loads}</span></div><div class="pb"><div class="pbi">${prev}<p class="pdesc">${pesc(blurb)}</p>${tags?`<div class="tags">${tags}</div>`:''}${gh?`<div class="lks" style="margin-top:10px">${gh}</div>`:''}</div></div></div>`;
+  const tags=techArr.slice(0,6).map(t=>`<span class="tag">${pesc(t)}</span>`).join('');
+  const media=d.preview
+    ? `<img class="pcard-img" src="${pesc(d.preview)}" alt="${pesc(p.title)} preview" loading="lazy">`
+    : `<div class="pcard-ph"><span>&#9670;</span></div>`;
+  return `<a class="pcard" href="${pesc(p.github)}" target="_blank" rel="noopener">${media}<div class="pcard-body"><div class="pcard-head"><span class="pst ${sm.c}"><span class="d"></span>${sm.l}</span><span class="pcard-title">${pesc(p.title)}</span></div><p class="pcard-blurb">${pesc(blurb)}</p>${tags?`<div class="tags">${tags}</div>`:''}<span class="pcard-gh"><span class="gx">&#8997;</span>view on github &rarr;</span></div></a>`;
 }
 async function buildProjects(){
   const c=document.getElementById('proj-list');
@@ -670,8 +686,12 @@ async function buildProjects(){
     let detail={}; try{ if(dr&&dr.ok) detail=await dr.json(); }catch(e){}
     items.forEach(p=>{ p._detail=detail[slugOf(p)]||{}; });
     const ord={done:0,doing:1,planned:2,blocked:3};
-    items.sort((a,b)=>(ord[a.status]??9)-(ord[b.status]??9));
-    c.innerHTML=items.length?items.map(procRow).join(''):'<p style="color:var(--txt-d);font-size:11.5px">No projects yet.</p>';
+    items.sort((a,b)=>{
+      const ia=a._detail.preview?0:1, ib=b._detail.preview?0:1; // projects with screenshots first
+      if(ia!==ib) return ia-ib;
+      return (ord[a.status]??9)-(ord[b.status]??9);
+    });
+    c.innerHTML=items.length?items.map(procCard).join(''):'<p style="color:var(--txt-d);font-size:11.5px">No projects yet.</p>';
   }catch(e){
     c.innerHTML='<p style="color:var(--txt-d);font-size:11.5px">Couldn\'t load live projects &mdash; see <a class="lk" href="https://github.com/govinda610" target="_blank" rel="noopener">github.com/govinda610</a></p>';
   }
