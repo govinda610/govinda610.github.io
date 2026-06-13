@@ -679,11 +679,7 @@ a:focus-visible,.tab:focus-visible,.chip:focus-visible,.proc:focus-visible,.lk:f
 <div class="wrap" style="padding-top:3.5vh">
   <div class="cmdl rv"><span class="ps">~/govinda610</span><span class="pm">&#10095;</span><span class="ty" style="color:#eef0f4;font-weight:500">git log --all --format=career</span></div>
   <div class="out rv" style="margin-top:16px">
-    <div class="gl-line"><div class="gl-dot"><span class="active"></span></div><div class="gl-body"><div class="hash">HEAD &mdash; Feb 2026 &ndash; present</div><div class="title">Senior AI Scientist / Engineer &mdash; Gartner</div><div class="sub">Agentic AI for client-call intelligence at Gartner scale &mdash; with a focus on evaluations, quality and reliable agent systems.</div><div class="gl-projs"><div class="gl-proj"><b>Call Insights at Scale</b> &mdash; agentic Graph-RAG over a purpose-built Gartner knowledge graph that turns <span class="m">30&ndash;50K sales/service calls a month</span> (6K&ndash;100K+ tokens each) into self-serve, hierarchy-aware insight &mdash; top objections, win/loss, renewal-vs-growth, disengagement reasons, sentiment and peer-connection discovery, visible from associate to executive. By moving all reasoning onto the graph and limiting the agent to <span class="m">one Cypher query + a summary</span>: tokens <span class="m">&minus;85% (200&ndash;400K &rarr; &lt;60K)</span>, latency <span class="m">&minus;65% (~150s &rarr; ~50s)</span>, failure surface <span class="m">25 steps &rarr; 2</span>.</div><div class="gl-proj"><b>Local embedding migration</b> &mdash; replaced OpenAI embeddings with Harrier-OSS run locally on vLLM for call-transcript embedding: <span class="m">$0 API cost, ~50&ndash;60% faster</span>, with tighter, better-calibrated similarity scores.</div><div class="gl-proj"><b>Agent performance engineering</b> &mdash; TOON + Markdown I/O (<span class="m">&minus;22% latency, &minus;35% tokens</span>), prompt caching, autocompaction, a model router, and DSPy for model-invariant instructions.</div></div><div class="dates">Stack: LangGraph 1.0 &middot; Neo4j &middot; Anthropic &middot; vLLM &middot; DSPy</div></div></div>
-    <div class="gl-line"><div class="gl-dot"><span></span></div><div class="gl-body"><div class="hash">Apr &ndash; Nov 2025</div><div class="title">Senior Scientist, AI &mdash; Eli Lilly</div><div class="sub">Built agentic AI tooling for Finance and data-science teams at Tech@Lilly.</div><div class="gl-projs"><div class="gl-proj"><b>CFO Notes</b> &mdash; multi-agent RAG that ingests diverse internal documents to produce financial variance reports across <span class="m">20 products / 18 markets</span>, cutting prep <span class="m">1 day &rarr; 15 min</span>; became the flagship decision-support tool for Lilly USA Finance.</div><div class="gl-proj"><b>ARTIE</b> &mdash; composed CFO Notes, Nexify and VizSnap into modular agentic blocks (router, SQL, validator, reviewer), scaling <span class="m">300 &rarr; 900+ users</span> across the enterprise.</div><div class="gl-proj"><b>VizSnap</b> &mdash; MCP-based agentic visualization generating dynamic ECharts dashboards from natural language; <span class="m">900+ users, 10K+ queries/mo</span>; fine-tuned Qwen-VL via RL.</div><div class="gl-proj"><b>Nexify</b> &mdash; async agentic pipelines (human-in-the-loop, time-travel, subagents) cutting question-to-insight from <span class="m">weeks &rarr; minutes</span>, with LangSmith eval suites.</div></div><div class="dates">Stack: LangGraph &middot; FastAPI &middot; MCP &middot; LangSmith &middot; Qwen-VL</div></div></div>
-    <div class="gl-line"><div class="gl-dot"><span></span></div><div class="gl-body"><div class="hash">Jul 2022 &ndash; Mar 2025</div><div class="title">Senior Data Scientist &mdash; Citigroup <span style="color:var(--txt-f)">(Business Analyst &rarr; Data Scientist &rarr; Sr. DS)</span></div><div class="sub">ML, forecasting and risk across Citi's AI &amp; analytics (AIM) group &mdash; progressing from Business Analyst to Senior Data Scientist.</div><div class="gl-projs"><div class="gl-proj"><b>First-party fraud detection</b> &mdash; anomaly-detection system flagging fraudulent activity, saving <span class="m">~$6.6M/yr</span>.</div><div class="gl-proj"><b>Call-volume forecasting</b> &mdash; hierarchical time-series + Transformer ensembles for global call-center capacity planning, <span class="m">81% &rarr; 91.8%</span>.</div><div class="gl-proj"><b>Deposit-rate prediction</b> &mdash; RF + Transformer ensemble setting optimal rates for <span class="m">2,500+ clients</span>, error down to <span class="m">11 bps</span>.</div><div class="gl-proj"><b>Work-allocation optimization</b> &mdash; constrained optimization cutting <span class="m">AHT &minus;25% (~$1.1M/yr)</span>.</div></div><div class="dates">Stack: Python &middot; SQL &middot; Transformers &middot; time-series</div></div></div>
-    <div class="gl-line"><div class="gl-dot"><span></span></div><div class="gl-body"><div class="hash">edu &mdash; 2020&ndash;2022</div><div class="title">MSc Economics &mdash; Gokhale Institute, Pune</div><div class="sub">Batch prize for top scores in Econometrics, Business Analytics &amp; Linear Economics. Research on AI's impact on labour, UBI modelling, female labour-force participation.</div></div></div>
-    <div class="gl-line"><div class="gl-dot"><span></span></div><div class="gl-body"><div class="hash">edu &mdash; 2015&ndash;2018</div><div class="title">BSc Economics &amp; Statistics &mdash; NMIMS, Mumbai</div><div class="sub">Best Paper Presentation (modeling India's low female labour-force participation) &middot; Budding Economist award.</div></div></div>
+    <div id="exp-list"></div>
   </div>
   <div class="foot"><span class="fl">~/govinda610</span> <span class="fa">&#10095;</span> echo "CV available on request"</div>
 </div>
@@ -817,52 +813,43 @@ async function buildProjects(){
 }
 buildProjects();
 
-/* ─── RESEARCH PAPERS ─── */
-const PAPERS=[
-  {file:'heart-rate-response-patterns-during-different-stages-of-exercise-electrocardiography.pdf',thumb:'hr-response-stages',title:'Heart Rate Response Patterns during Different Stages of Exercise Electrocardiography',venue:'Open Access J. Cardiology · 2023',desc:'Across 75 healthy adults, only ten showed a linear heart-rate rise through the Bruce protocol — eleven distinct response patterns emerged, pointing to an intrinsic maximal heart rate unique to each person.'},
-  {file:'heart-rate-recovery-patterns-following-treadmill-test-in-normal-individuals.pdf',thumb:'hr-recovery',title:'Heart Rate Recovery Patterns Following Treadmill Test in Normal Individuals',venue:'Open Access J. Cardiology · 2023',desc:'Heart-rate recovery after a treadmill test in 95 healthy individuals falls into three distinct patterns, though all drop ≥50 bpm within the first three minutes — a normative baseline for prognostic work.'},
-  {file:'correlation-of-heart-rate-response-with-severity-of-myocardial-ischemia-during-treadmill-testing.pdf',thumb:'hr-severity-ischemia',title:'Correlation of Heart Rate Response with Severity of Myocardial Ischemia during Treadmill Testing',venue:'Open Access J. Cardiology · 2023',desc:'In 81 patients with effort angina, chronotropic incompetence proved a highly specific marker of severe exercise-induced ischemia; pairing it with blunted first-minute heart-rate recovery improved diagnostic accuracy.'},
-  {file:'females-over-fifty-need-a-different-regression-equation-for-age-predicted-maximal-heart-rate.pdf',thumb:'females-fifty-hr-equation',title:'Females over Fifty Need a Different Regression Equation for Age-Predicted Maximal Heart Rate',venue:'Open Access J. Cardiology · 2023',desc:'Stage-wise analysis of 70 normal individuals shows women over fifty rarely reach Bruce stage 4 and peak lower — so the standard 220−age formula needs a sex- and age-specific regression equation.'},
-  {file:'effect-of-electrocardiographic-changes-on-standing-and-hyperventilation-prior-to-exercise-testing.pdf',thumb:'standing-hyperventilation',title:'Effect of ECG Changes on Standing and Hyperventilation Prior to Exercise Testing',venue:'Open Access J. Cardiology · 2022',desc:'In 100 subjects, ECG changes provoked simply by standing and hyperventilating before a treadmill test can mimic or unmask exercise-induced ischemia, and must be accounted for when reading the test.'},
-  {file:'early-impaired-relaxation-of-the-left-ventricle-in-uncomplicated-prehypertension-detected-by-exercise-ecg.pdf',thumb:'prehypertension-lv',title:'Early Impaired LV Relaxation in Uncomplicated Prehypertension Detected by Exercise ECG',venue:'Int. J. Cardiovascular Medicine · 2024',desc:'Nearly half of people with isolated, uncomplicated prehypertension have impaired left-ventricular relaxation even without hypertrophy — detectable non-invasively through the exercise-induced V1 P-wave terminal deflection.'},
-  {file:'effect-of-treadmill-testing-using-the-bruce-protocol-on-the-p-wave-in-normal-individuals.pdf',thumb:'p-wave-bruce',title:'Effect of Treadmill Testing (Bruce Protocol) on the P Wave in Normal Individuals',venue:'Int. J. Cardiovascular Medicine · 2024',desc:'Charts how the P wave evolves through a Bruce-protocol treadmill test in normal individuals — rising early, merging into the PR segment at peak exercise, then re-emerging during recovery.'},
-  {file:'effect-of-pre-exercise-increase-in-heart-rate-on-subsequent-and-maximal-heart-rate-during-treadmill-testing.pdf',thumb:'pre-exercise-hr',title:'Effect of Pre-Exercise Heart-Rate Increase on Subsequent and Maximal Heart Rate during Treadmill Testing',venue:'EC Cardiology · 2022',desc:'In 63 normal subjects, a large pre-exercise heart-rate rise (from standing + hyperventilation) blunts the subsequent increase in the early Bruce stages — a confounder for interpreting stress tests.'},
-  {file:'status-of-exercise-duration-and-metabolic-equivalents-in-interpretation-of-exercise-electrocardiography.pdf',thumb:'exercise-duration-mets',title:'Status of Exercise Duration and Metabolic Equivalents in Interpretation of Exercise ECG',venue:'J. Cardiovascular Surgery & Heart Diseases · 2022',desc:'Argues that exercise duration and metabolic equivalents reflect overall effort tolerance, which depends on many non-cardiac factors — so reduced tolerance alone shouldn\'t be read as the severity of coronary disease.'},
-  {file:'objective-electrocardiographic-documentation-of-walk-through-angina-during-treadmill-testing.pdf',thumb:'walk-through-angina',title:'Objective ECG Documentation of ‘Walk-Through Angina’ during Treadmill Testing',venue:'J. Cardiology & Current Research · 2022',desc:'Two cases of ‘walk-through angina’ — angina easing despite continued exertion — documented objectively, with the symptomatic relief mirrored by a measurable reduction in ischemic ECG changes.'},
-  {file:'t-wave-alternans-preceding-st-depression-as-a-sign-of-myocardial-ischemia-during-treadmill-test.pdf',thumb:'t-wave-alternans',title:'T-Wave Alternans Preceding ST Depression as a Sign of Myocardial Ischemia during Treadmill Test',venue:'Int. J. Cardiology & Cardiovascular Disorder · 2022',desc:'A case in which T-wave alternans appeared before classical ischemic ST-segment depression during a treadmill test, suggesting it can serve as an early electrical marker of myocardial ischemia.'},
-  {file:'pseudo-st-elevation-and-terminal-t-wave-deflection-during-treadmill-test-from-printer-damping.pdf',thumb:'pseudo-st-printer',title:'Pseudo ST Elevation & Terminal T-Wave Deflection during Treadmill Test from Printer Damping',venue:'J. Cardiovascular Surgery & Heart Diseases · 2022',desc:'Six asymptomatic individuals showed ST elevation with terminal negative T waves in V1–V3 on a treadmill test that proved to be a printer-damping artifact — normal on another machine and on echo.'},
-  {file:'overdamping-of-printer-styli-can-simulate-myocardial-ischemia-during-exercise-electrocardiography.pdf',thumb:'overdamping-styli',title:'Overdamping of Printer Styli can Simulate Myocardial Ischemia during Exercise ECG',venue:'Int. J. Heart & Vascular System · 2022',desc:'Four ‘ischemic-looking’ treadmill tests turned out to be artifacts: over-damping of the printer\'s styli produced pseudo ST-segment deviation in asymptomatic, low-risk individuals with normal echocardiograms.'}
-];
+/* ─── RESEARCH PAPERS (data: papers.json) ─── */
 function paperCard(p){
   return `<a class="pcard pcard-paper" href="papers/${p.file}" target="_blank" rel="noopener"><img class="pcard-img" src="previews/papers/${p.thumb}.png" alt="First page of: ${pesc(p.title)}" loading="lazy"><div class="pcard-body"><span class="pcard-venue">${pesc(p.venue)}</span><span class="pcard-title">${pesc(p.title)}</span><p class="pcard-blurb">${pesc(p.desc)}</p><span class="pcard-gh"><span class="gx">&#9636;</span>read paper (PDF) &rarr;</span></div></a>`;
 }
-function buildPapers(){
-  const c=document.getElementById('papers-list');
-  if(c) c.innerHTML=PAPERS.map(paperCard).join('');
+async function buildPapers(){
+  const c=document.getElementById('papers-list'); if(!c) return;
+  try{ const data=await (await fetch('papers.json',{cache:'no-store'})).json(); c.innerHTML=data.map(paperCard).join(''); }
+  catch(e){ c.innerHTML='<p style="color:var(--txt-d);font-size:11.5px">Couldn\'t load papers.</p>'; }
 }
 buildPapers();
 
-/* ─── CERTIFICATES ─── */
-const CERTS=[
-  {file:'certs/langchain-academy-deep-agents-with-langgraph.pdf',thumb:'previews/certs/langchain-academy-deep-agents-with-langgraph.png',name:'Deep Agents with LangGraph',issuer:'LangChain Academy',year:'2025',skills:'Long-horizon agents — planning, sub-agent delegation, persistent memory and file tools.'},
-  {file:'certs/langchain-academy-ambient-agents-with-langgraph.pdf',thumb:'previews/certs/langchain-academy-ambient-agents-with-langgraph.png',name:'Ambient Agents with LangGraph',issuer:'LangChain Academy',year:'2025',skills:'Event-driven, always-on agents with human-in-the-loop (e.g. an autonomous email assistant).'},
-  {file:'certs/langchain-academy-agent-observability-and-evaluations.pdf',thumb:'previews/certs/langchain-academy-agent-observability-and-evaluations.png',name:'Agent Observability & Evaluations',issuer:'LangChain Academy',year:'2025',skills:'Tracing, eval suites and LLM-as-judge to measure and debug agent quality with LangSmith.'},
-  {file:'certs/langchain-academy-introduction-to-langgraph.pdf',thumb:'previews/certs/langchain-academy-introduction-to-langgraph.png',name:'Introduction to LangGraph',issuer:'LangChain Academy',year:'2025',skills:'Graph-based agent orchestration — state, nodes, edges, cycles and persistence.'},
-  {file:'certs/hugging-face-ai-agents-course.webp',thumb:'previews/certs/hugging-face-ai-agents-course.png',name:'AI Agents Course',issuer:'Hugging Face',year:'2025',skills:'Agent fundamentals — tools, function-calling, the ReAct loop, smolagents and LlamaIndex.'},
-  {file:'certs/kaggle-intro-to-deep-learning.png',thumb:'previews/certs/kaggle-intro-to-deep-learning.png',name:'Intro to Deep Learning',issuer:'Kaggle',year:'2026',skills:'Neural nets end to end — layers, activations, SGD and handling overfitting in Keras.'},
-  {file:'certs/citi-data-science-academy.png',thumb:'previews/certs/citi-data-science-academy.png',name:'Data Science Academy',issuer:'Citigroup',year:'',skills:"Citi's internal data-science program — ML, statistics and analytics applied to banking."},
-  {file:'certs/nsdc-proschool-business-analytics.pdf',thumb:'previews/certs/nsdc-proschool-business-analytics.png',name:'Business Analytics (NSDC)',issuer:'IMS Proschool',year:'2021',skills:'Business-analytics foundations — statistics, visualization and data-driven decisions.'},
-  {file:'certs/udemy-complete-python-bootcamp.pdf',thumb:'previews/certs/udemy-complete-python-bootcamp.png',name:'Complete Python Bootcamp',issuer:'Udemy',year:'',skills:'End-to-end Python — data structures, OOP, modules and practical scripting.'}
-];
+/* ─── CERTIFICATES (data: certs.json) ─── */
 function certCard(c){
   const venue=c.issuer+(c.year?(' · '+c.year):'');
   return `<a class="pcard pcard-cert" href="${c.file}" target="_blank" rel="noopener"><img class="pcard-img" src="${pesc(c.thumb)}" alt="${pesc(c.name)} certificate" loading="lazy"><div class="pcard-body"><span class="pcard-venue">${pesc(venue)}</span><span class="pcard-title">${pesc(c.name)}</span><p class="pcard-blurb">${pesc(c.skills)}</p><span class="pcard-gh"><span class="gx">&#9636;</span>view certificate &rarr;</span></div></a>`;
 }
-function buildCerts(){
-  const c=document.getElementById('certs-list');
-  if(c) c.innerHTML=CERTS.map(certCard).join('');
+async function buildCerts(){
+  const c=document.getElementById('certs-list'); if(!c) return;
+  try{ const data=await (await fetch('certs.json',{cache:'no-store'})).json(); c.innerHTML=data.map(certCard).join(''); }
+  catch(e){ c.innerHTML='<p style="color:var(--txt-d);font-size:11.5px">Couldn\'t load certs.</p>'; }
 }
 buildCerts();
+
+/* ─── EXPERIENCE (data: experience.json) ─── */
+function expLine(e){
+  const dot=e.active?'<span class="active"></span>':'<span></span>';
+  let b='<div class="hash">'+e.period+'</div><div class="title">'+e.title+'</div><div class="sub">'+e.subtitle+'</div>';
+  if(e.projects&&e.projects.length){ b+='<div class="gl-projs">'+e.projects.map(p=>'<div class="gl-proj"><b>'+p.name+'</b> &mdash; '+p.html+'</div>').join('')+'</div>'; }
+  if(e.stack){ b+='<div class="dates">'+e.stack+'</div>'; }
+  return '<div class="gl-line"><div class="gl-dot">'+dot+'</div><div class="gl-body">'+b+'</div></div>';
+}
+async function buildExp(){
+  const c=document.getElementById('exp-list'); if(!c) return;
+  try{ const data=await (await fetch('experience.json',{cache:'no-store'})).json(); c.innerHTML=data.map(expLine).join(''); }
+  catch(e){ c.innerHTML='<p style="color:var(--txt-d);font-size:11.5px">Couldn\'t load experience.</p>'; }
+}
+buildExp();
 
 /* ─── CONTACT ─── */
 function sendTransmission(){

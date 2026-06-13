@@ -1,0 +1,57 @@
+[
+  {
+    "type": "job",
+    "active": true,
+    "period": "HEAD &mdash; Feb 2026 &ndash; present",
+    "title": "Senior AI Scientist / Engineer &mdash; Gartner",
+    "subtitle": "Agentic AI for client-call intelligence at Gartner scale &mdash; with a focus on evaluations, quality and reliable agent systems.",
+    "projects": [
+      {"name": "Call Insights at Scale", "html": "agentic Graph-RAG over a purpose-built Gartner knowledge graph that turns <span class=\"m\">30&ndash;50K sales/service calls a month</span> (6K&ndash;100K+ tokens each) into self-serve, hierarchy-aware insight &mdash; top objections, win/loss, renewal-vs-growth, disengagement reasons, sentiment and peer-connection discovery, visible from associate to executive. By moving all reasoning onto the graph and limiting the agent to <span class=\"m\">one Cypher query + a summary</span>: tokens <span class=\"m\">&minus;85% (200&ndash;400K &rarr; &lt;60K)</span>, latency <span class=\"m\">&minus;65% (~150s &rarr; ~50s)</span>, failure surface <span class=\"m\">25 steps &rarr; 2</span>."},
+      {"name": "Local embedding migration", "html": "replaced OpenAI embeddings with Harrier-OSS run locally on vLLM for call-transcript embedding: <span class=\"m\">$0 API cost, ~50&ndash;60% faster</span>, with tighter, better-calibrated similarity scores."},
+      {"name": "Agent performance engineering", "html": "TOON + Markdown I/O (<span class=\"m\">&minus;22% latency, &minus;35% tokens</span>), prompt caching, autocompaction, a model router, and DSPy for model-invariant instructions."}
+    ],
+    "stack": "Stack: LangGraph 1.0 &middot; Neo4j &middot; Anthropic &middot; vLLM &middot; DSPy"
+  },
+  {
+    "type": "job",
+    "active": false,
+    "period": "Apr &ndash; Nov 2025",
+    "title": "Senior Scientist, AI &mdash; Eli Lilly",
+    "subtitle": "Built agentic AI tooling for Finance and data-science teams at Tech@Lilly.",
+    "projects": [
+      {"name": "CFO Notes", "html": "multi-agent RAG that ingests diverse internal documents to produce financial variance reports across <span class=\"m\">20 products / 18 markets</span>, cutting prep <span class=\"m\">1 day &rarr; 15 min</span>; became the flagship decision-support tool for Lilly USA Finance."},
+      {"name": "ARTIE", "html": "composed CFO Notes, Nexify and VizSnap into modular agentic blocks (router, SQL, validator, reviewer), scaling <span class=\"m\">300 &rarr; 900+ users</span> across the enterprise."},
+      {"name": "VizSnap", "html": "MCP-based agentic visualization generating dynamic ECharts dashboards from natural language; <span class=\"m\">900+ users, 10K+ queries/mo</span>; fine-tuned Qwen-VL via RL."},
+      {"name": "Nexify", "html": "async agentic pipelines (human-in-the-loop, time-travel, subagents) cutting question-to-insight from <span class=\"m\">weeks &rarr; minutes</span>, with LangSmith eval suites."}
+    ],
+    "stack": "Stack: LangGraph &middot; FastAPI &middot; MCP &middot; LangSmith &middot; Qwen-VL"
+  },
+  {
+    "type": "job",
+    "active": false,
+    "period": "Jul 2022 &ndash; Mar 2025",
+    "title": "Senior Data Scientist &mdash; Citigroup <span style=\"color:var(--txt-f)\">(Business Analyst &rarr; Data Scientist &rarr; Sr. DS)</span>",
+    "subtitle": "ML, forecasting and risk across Citi's AI &amp; analytics (AIM) group &mdash; progressing from Business Analyst to Senior Data Scientist.",
+    "projects": [
+      {"name": "First-party fraud detection", "html": "anomaly-detection system flagging fraudulent activity, saving <span class=\"m\">~$6.6M/yr</span>."},
+      {"name": "Call-volume forecasting", "html": "hierarchical time-series + Transformer ensembles for global call-center capacity planning, <span class=\"m\">81% &rarr; 91.8%</span>."},
+      {"name": "Deposit-rate prediction", "html": "RF + Transformer ensemble setting optimal rates for <span class=\"m\">2,500+ clients</span>, error down to <span class=\"m\">11 bps</span>."},
+      {"name": "Work-allocation optimization", "html": "constrained optimization cutting <span class=\"m\">AHT &minus;25% (~$1.1M/yr)</span>."}
+    ],
+    "stack": "Stack: Python &middot; SQL &middot; Transformers &middot; time-series"
+  },
+  {
+    "type": "edu",
+    "active": false,
+    "period": "edu &mdash; 2020&ndash;2022",
+    "title": "MSc Economics &mdash; Gokhale Institute, Pune",
+    "subtitle": "Batch prize for top scores in Econometrics, Business Analytics &amp; Linear Economics. Research on AI's impact on labour, UBI modelling, female labour-force participation."
+  },
+  {
+    "type": "edu",
+    "active": false,
+    "period": "edu &mdash; 2015&ndash;2018",
+    "title": "BSc Economics &amp; Statistics &mdash; NMIMS, Mumbai",
+    "subtitle": "Best Paper Presentation (modeling India's low female labour-force participation) &middot; Budding Economist award."
+  }
+]
