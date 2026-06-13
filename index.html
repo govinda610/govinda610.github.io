@@ -204,6 +204,7 @@ body.guided .gi{display:block}
 .pp-sub{font-size:12.5px;color:var(--txt-d);line-height:1.6;margin-bottom:16px;max-width:74ch}
 .pcard-paper .pcard-img{aspect-ratio:4/3;object-position:top center;background:#fff}
 .pcard-venue{font-size:10px;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.pcard-cert .pcard-img{aspect-ratio:3/2;object-fit:contain;background:#f4f5f8;padding:0}
 @media(max-width:760px){.pgrid{grid-template-columns:1fr}}
 
 /* hero */
@@ -710,17 +711,7 @@ a:focus-visible,.tab:focus-visible,.chip:focus-visible,.proc:focus-visible,.lk:f
 <div class="wrap" style="padding-top:3.5vh">
   <div class="cmdl rv"><span class="ps">~/govinda610/certs</span><span class="pm">&#10095;</span><span class="ty" style="color:#eef0f4;font-weight:500">ls -la</span></div>
   <div class="out rv" style="margin-top:4px">
-    <div class="cert-grid">
-      <a class="cert" href="certs/langchain-academy-deep-agents-with-langgraph.pdf" target="_blank" rel="noopener"><div class="icon">&#129302;</div><div class="name">Project: Deep Agents with LangGraph</div><div class="issuer">LangChain Academy</div><div class="year">2025</div></a>
-      <a class="cert" href="certs/langchain-academy-ambient-agents-with-langgraph.pdf" target="_blank" rel="noopener"><div class="icon">&#129302;</div><div class="name">Project: Ambient Agents with LangGraph</div><div class="issuer">LangChain Academy</div><div class="year">2025</div></a>
-      <a class="cert" href="certs/langchain-academy-agent-observability-and-evaluations.pdf" target="_blank" rel="noopener"><div class="icon">&#129302;</div><div class="name">Agent Observability &amp; Evaluations</div><div class="issuer">LangChain Academy</div><div class="year">2025</div></a>
-      <a class="cert" href="certs/langchain-academy-introduction-to-langgraph.pdf" target="_blank" rel="noopener"><div class="icon">&#129302;</div><div class="name">Introduction to LangGraph</div><div class="issuer">LangChain Academy</div><div class="year">2025</div></a>
-      <a class="cert" href="certs/hugging-face-ai-agents-course.webp" target="_blank" rel="noopener"><div class="icon">&#129303;</div><div class="name">AI Agents Course</div><div class="issuer">Hugging Face</div><div class="year">2025</div></a>
-      <a class="cert" href="certs/kaggle-intro-to-deep-learning.png" target="_blank" rel="noopener"><div class="icon">&#9673;</div><div class="name">Intro to Deep Learning</div><div class="issuer">Kaggle</div><div class="year">2026</div></a>
-      <a class="cert" href="certs/citi-data-science-academy.png" target="_blank" rel="noopener"><div class="icon">&#9650;</div><div class="name">Data Science Academy</div><div class="issuer">Citigroup</div><div class="year">&mdash;</div></a>
-      <a class="cert" href="certs/nsdc-proschool-business-analytics.pdf" target="_blank" rel="noopener"><div class="icon">&#9636;</div><div class="name">Business Analytics (NSDC)</div><div class="issuer">IMS Proschool</div><div class="year">2021</div></a>
-      <a class="cert" href="certs/udemy-complete-python-bootcamp.pdf" target="_blank" rel="noopener"><div class="icon">&#9670;</div><div class="name">Complete Python Bootcamp</div><div class="issuer">Udemy</div><div class="year">&mdash;</div></a>
-    </div>
+    <div id="certs-list" class="pgrid"></div>
   </div>
   <div class="foot"><span class="fl">~/govinda610/certs</span> <span class="fa">&#10095;</span> echo "AI, ML, and data science certifications"</div>
 </div>
@@ -850,6 +841,28 @@ function buildPapers(){
   if(c) c.innerHTML=PAPERS.map(paperCard).join('');
 }
 buildPapers();
+
+/* ─── CERTIFICATES ─── */
+const CERTS=[
+  {file:'certs/langchain-academy-deep-agents-with-langgraph.pdf',thumb:'previews/certs/langchain-academy-deep-agents-with-langgraph.png',name:'Deep Agents with LangGraph',issuer:'LangChain Academy',year:'2025',skills:'Long-horizon agents — planning, sub-agent delegation, persistent memory and file tools.'},
+  {file:'certs/langchain-academy-ambient-agents-with-langgraph.pdf',thumb:'previews/certs/langchain-academy-ambient-agents-with-langgraph.png',name:'Ambient Agents with LangGraph',issuer:'LangChain Academy',year:'2025',skills:'Event-driven, always-on agents with human-in-the-loop (e.g. an autonomous email assistant).'},
+  {file:'certs/langchain-academy-agent-observability-and-evaluations.pdf',thumb:'previews/certs/langchain-academy-agent-observability-and-evaluations.png',name:'Agent Observability & Evaluations',issuer:'LangChain Academy',year:'2025',skills:'Tracing, eval suites and LLM-as-judge to measure and debug agent quality with LangSmith.'},
+  {file:'certs/langchain-academy-introduction-to-langgraph.pdf',thumb:'previews/certs/langchain-academy-introduction-to-langgraph.png',name:'Introduction to LangGraph',issuer:'LangChain Academy',year:'2025',skills:'Graph-based agent orchestration — state, nodes, edges, cycles and persistence.'},
+  {file:'certs/hugging-face-ai-agents-course.webp',thumb:'previews/certs/hugging-face-ai-agents-course.png',name:'AI Agents Course',issuer:'Hugging Face',year:'2025',skills:'Agent fundamentals — tools, function-calling, the ReAct loop, smolagents and LlamaIndex.'},
+  {file:'certs/kaggle-intro-to-deep-learning.png',thumb:'previews/certs/kaggle-intro-to-deep-learning.png',name:'Intro to Deep Learning',issuer:'Kaggle',year:'2026',skills:'Neural nets end to end — layers, activations, SGD and handling overfitting in Keras.'},
+  {file:'certs/citi-data-science-academy.png',thumb:'previews/certs/citi-data-science-academy.png',name:'Data Science Academy',issuer:'Citigroup',year:'',skills:"Citi's internal data-science program — ML, statistics and analytics applied to banking."},
+  {file:'certs/nsdc-proschool-business-analytics.pdf',thumb:'previews/certs/nsdc-proschool-business-analytics.png',name:'Business Analytics (NSDC)',issuer:'IMS Proschool',year:'2021',skills:'Business-analytics foundations — statistics, visualization and data-driven decisions.'},
+  {file:'certs/udemy-complete-python-bootcamp.pdf',thumb:'previews/certs/udemy-complete-python-bootcamp.png',name:'Complete Python Bootcamp',issuer:'Udemy',year:'',skills:'End-to-end Python — data structures, OOP, modules and practical scripting.'}
+];
+function certCard(c){
+  const venue=c.issuer+(c.year?(' · '+c.year):'');
+  return `<a class="pcard pcard-cert" href="${c.file}" target="_blank" rel="noopener"><img class="pcard-img" src="${pesc(c.thumb)}" alt="${pesc(c.name)} certificate" loading="lazy"><div class="pcard-body"><span class="pcard-venue">${pesc(venue)}</span><span class="pcard-title">${pesc(c.name)}</span><p class="pcard-blurb">${pesc(c.skills)}</p><span class="pcard-gh"><span class="gx">&#9636;</span>view certificate &rarr;</span></div></a>`;
+}
+function buildCerts(){
+  const c=document.getElementById('certs-list');
+  if(c) c.innerHTML=CERTS.map(certCard).join('');
+}
+buildCerts();
 
 /* ─── CONTACT ─── */
 function sendTransmission(){
