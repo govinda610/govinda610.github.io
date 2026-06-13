@@ -154,6 +154,13 @@ body.guided .gi{display:block}
 .pcard-gh{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;color:var(--txt-f);margin-top:auto;padding-top:4px;transition:color .15s}
 .pcard-gh .gx{color:var(--amber)}
 .pcard:hover .pcard-gh{color:var(--amber)}
+/* paper variant */
+.pp-head{display:flex;align-items:baseline;gap:10px;margin:30px 0 4px}
+.pp-h{font-size:14px;color:#eef0f4;font-weight:600}
+.pp-c{font-size:11px;color:var(--txt-f)}
+.pp-sub{font-size:12.5px;color:var(--txt-d);line-height:1.6;margin-bottom:16px;max-width:74ch}
+.pcard-paper .pcard-img{aspect-ratio:4/3;object-position:top center;background:#fff}
+.pcard-venue{font-size:10px;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
 @media(max-width:760px){.pgrid{grid-template-columns:1fr}}
 
 /* hero */
@@ -562,26 +569,9 @@ a:focus-visible,.tab:focus-visible,.chip:focus-visible,.proc:focus-visible,.lk:f
     <div class="ri-card"><h3>Fundamental Architecture Research</h3><p>Attention variants (MLA, GQA, sparse), hybrid Mamba/SSM, looped transformers, diffusion LMs, energy-based models. Building nanoGPT&rarr;HRM from scratch.</p><div class="meta">active build &middot; ref: Karpathy, Elhage et al.</div></div>
     <div class="ri-card"><h3>Recursive Self-Improving LLMs (RLM)</h3><p>Supervisor-subordinate training loop — larger model fine-tunes smaller from failure traces. Benchmarks graph-RAG vs PageIndex retrieval.</p><div class="meta">research draft &middot; training dynamics domain</div></div>
     <div class="ri-card"><h3>ARC-AGI-3 / Odysseus Approach</h3><p>Replicating Odysseus for ARC-AGI-3. Incorporating Meta Hyperagent architecture for multi-agent abstract reasoning.</p><div class="meta">planned &middot; reasoning + agents</div></div>
-    <div class="ri-card">
-      <h3>Papers</h3>
-      <p>Cardiology research co-authored with <span style="color:var(--txt)">Dr. S.R. Mittal (DM, Cardiology)</span> &mdash; my contribution was the data analysis and statistical methodology, applied to exercise electrocardiography and heart-rate dynamics.</p>
-      <div class="meta" style="margin-bottom:12px">13 papers &middot; 2022&ndash;2024</div>
-      <div class="lks" style="flex-direction:column;align-items:stretch;gap:7px">
-        <a class="lk" href="papers/heart-rate-response-patterns-during-different-stages-of-exercise-electrocardiography.pdf" target="_blank" rel="noopener"><span class="gx">&#9636;</span>Heart Rate Response Patterns during Different Stages of Exercise Electrocardiography <span style="color:var(--txt-f)">&middot; Open Access J. Cardiology, 2023</span></a>
-        <a class="lk" href="papers/heart-rate-recovery-patterns-following-treadmill-test-in-normal-individuals.pdf" target="_blank" rel="noopener"><span class="gx">&#9636;</span>Heart Rate Recovery Patterns Following Treadmill Test in Normal Individuals <span style="color:var(--txt-f)">&middot; Open Access J. Cardiology, 2023</span></a>
-        <a class="lk" href="papers/correlation-of-heart-rate-response-with-severity-of-myocardial-ischemia-during-treadmill-testing.pdf" target="_blank" rel="noopener"><span class="gx">&#9636;</span>Correlation of Heart Rate Response with Severity of Myocardial Ischemia during Treadmill Testing <span style="color:var(--txt-f)">&middot; Open Access J. Cardiology, 2023</span></a>
-        <a class="lk" href="papers/females-over-fifty-need-a-different-regression-equation-for-age-predicted-maximal-heart-rate.pdf" target="_blank" rel="noopener"><span class="gx">&#9636;</span>Females over Fifty Need a Different Regression Equation for Age-Predicted Maximal Heart Rate <span style="color:var(--txt-f)">&middot; Open Access J. Cardiology, 2023</span></a>
-        <a class="lk" href="papers/effect-of-electrocardiographic-changes-on-standing-and-hyperventilation-prior-to-exercise-testing.pdf" target="_blank" rel="noopener"><span class="gx">&#9636;</span>Effect of ECG Changes on Standing and Hyperventilation Prior to Exercise Testing <span style="color:var(--txt-f)">&middot; Open Access J. Cardiology, 2022</span></a>
-        <a class="lk" href="papers/early-impaired-relaxation-of-the-left-ventricle-in-uncomplicated-prehypertension-detected-by-exercise-ecg.pdf" target="_blank" rel="noopener"><span class="gx">&#9636;</span>Early Impaired LV Relaxation in Uncomplicated Prehypertension Detected by Exercise ECG <span style="color:var(--txt-f)">&middot; Int. J. Cardiovascular Medicine, 2024</span></a>
-        <a class="lk" href="papers/effect-of-treadmill-testing-using-the-bruce-protocol-on-the-p-wave-in-normal-individuals.pdf" target="_blank" rel="noopener"><span class="gx">&#9636;</span>Effect of Treadmill Testing (Bruce Protocol) on the P Wave in Normal Individuals <span style="color:var(--txt-f)">&middot; Int. J. Cardiovascular Medicine, 2024</span></a>
-        <a class="lk" href="papers/effect-of-pre-exercise-increase-in-heart-rate-on-subsequent-and-maximal-heart-rate-during-treadmill-testing.pdf" target="_blank" rel="noopener"><span class="gx">&#9636;</span>Effect of Pre-Exercise Heart-Rate Increase on Subsequent and Maximal Heart Rate during Treadmill Testing <span style="color:var(--txt-f)">&middot; EC Cardiology, 2022</span></a>
-        <a class="lk" href="papers/status-of-exercise-duration-and-metabolic-equivalents-in-interpretation-of-exercise-electrocardiography.pdf" target="_blank" rel="noopener"><span class="gx">&#9636;</span>Status of Exercise Duration and Metabolic Equivalents in Interpretation of Exercise ECG <span style="color:var(--txt-f)">&middot; J. Cardiovascular Surgery &amp; Heart Diseases, 2022</span></a>
-        <a class="lk" href="papers/objective-electrocardiographic-documentation-of-walk-through-angina-during-treadmill-testing.pdf" target="_blank" rel="noopener"><span class="gx">&#9636;</span>Objective ECG Documentation of &lsquo;Walk-Through Angina&rsquo; during Treadmill Testing <span style="color:var(--txt-f)">&middot; J. Cardiology &amp; Current Research, 2022</span></a>
-        <a class="lk" href="papers/t-wave-alternans-preceding-st-depression-as-a-sign-of-myocardial-ischemia-during-treadmill-test.pdf" target="_blank" rel="noopener"><span class="gx">&#9636;</span>T-Wave Alternans Preceding ST Depression as a Sign of Myocardial Ischemia during Treadmill Test <span style="color:var(--txt-f)">&middot; Int. J. Cardiology &amp; Cardiovascular Disorder, 2022</span></a>
-        <a class="lk" href="papers/pseudo-st-elevation-and-terminal-t-wave-deflection-during-treadmill-test-from-printer-damping.pdf" target="_blank" rel="noopener"><span class="gx">&#9636;</span>Pseudo ST Elevation &amp; Terminal T-Wave Deflection during Treadmill Test from Printer Damping <span style="color:var(--txt-f)">&middot; J. Cardiovascular Surgery &amp; Heart Diseases, 2022</span></a>
-        <a class="lk" href="papers/overdamping-of-printer-styli-can-simulate-myocardial-ischemia-during-exercise-electrocardiography.pdf" target="_blank" rel="noopener"><span class="gx">&#9636;</span>Overdamping of Printer Styli can Simulate Myocardial Ischemia during Exercise ECG <span style="color:var(--txt-f)">&middot; Int. J. Heart &amp; Vascular System, 2022</span></a>
-      </div>
-    </div>
+    <div class="pp-head rv"><h3 class="pp-h">Published Papers</h3><span class="pp-c">13 papers &middot; 2022&ndash;2024</span></div>
+    <p class="pp-sub rv">Cardiology research co-authored with <span style="color:var(--txt)">Dr. S.R. Mittal (DM, Cardiology)</span> &mdash; my contribution was the data analysis and statistical methodology, applied to exercise electrocardiography and heart-rate dynamics. Click a card to open the PDF.</p>
+    <div id="papers-list" class="pgrid"></div>
   </div>
   <div class="foot">
     <span class="fl">~/govinda610/research</span> <span class="fa">&#10095;</span> echo "ask the agent on home tab for paper details"
@@ -697,6 +687,31 @@ async function buildProjects(){
   }
 }
 buildProjects();
+
+/* ─── RESEARCH PAPERS ─── */
+const PAPERS=[
+  {file:'heart-rate-response-patterns-during-different-stages-of-exercise-electrocardiography.pdf',thumb:'hr-response-stages',title:'Heart Rate Response Patterns during Different Stages of Exercise Electrocardiography',venue:'Open Access J. Cardiology · 2023',desc:'Across 75 healthy adults, only ten showed a linear heart-rate rise through the Bruce protocol — eleven distinct response patterns emerged, pointing to an intrinsic maximal heart rate unique to each person.'},
+  {file:'heart-rate-recovery-patterns-following-treadmill-test-in-normal-individuals.pdf',thumb:'hr-recovery',title:'Heart Rate Recovery Patterns Following Treadmill Test in Normal Individuals',venue:'Open Access J. Cardiology · 2023',desc:'Heart-rate recovery after a treadmill test in 95 healthy individuals falls into three distinct patterns, though all drop ≥50 bpm within the first three minutes — a normative baseline for prognostic work.'},
+  {file:'correlation-of-heart-rate-response-with-severity-of-myocardial-ischemia-during-treadmill-testing.pdf',thumb:'hr-severity-ischemia',title:'Correlation of Heart Rate Response with Severity of Myocardial Ischemia during Treadmill Testing',venue:'Open Access J. Cardiology · 2023',desc:'In 81 patients with effort angina, chronotropic incompetence proved a highly specific marker of severe exercise-induced ischemia; pairing it with blunted first-minute heart-rate recovery improved diagnostic accuracy.'},
+  {file:'females-over-fifty-need-a-different-regression-equation-for-age-predicted-maximal-heart-rate.pdf',thumb:'females-fifty-hr-equation',title:'Females over Fifty Need a Different Regression Equation for Age-Predicted Maximal Heart Rate',venue:'Open Access J. Cardiology · 2023',desc:'Stage-wise analysis of 70 normal individuals shows women over fifty rarely reach Bruce stage 4 and peak lower — so the standard 220−age formula needs a sex- and age-specific regression equation.'},
+  {file:'effect-of-electrocardiographic-changes-on-standing-and-hyperventilation-prior-to-exercise-testing.pdf',thumb:'standing-hyperventilation',title:'Effect of ECG Changes on Standing and Hyperventilation Prior to Exercise Testing',venue:'Open Access J. Cardiology · 2022',desc:'In 100 subjects, ECG changes provoked simply by standing and hyperventilating before a treadmill test can mimic or unmask exercise-induced ischemia, and must be accounted for when reading the test.'},
+  {file:'early-impaired-relaxation-of-the-left-ventricle-in-uncomplicated-prehypertension-detected-by-exercise-ecg.pdf',thumb:'prehypertension-lv',title:'Early Impaired LV Relaxation in Uncomplicated Prehypertension Detected by Exercise ECG',venue:'Int. J. Cardiovascular Medicine · 2024',desc:'Nearly half of people with isolated, uncomplicated prehypertension have impaired left-ventricular relaxation even without hypertrophy — detectable non-invasively through the exercise-induced V1 P-wave terminal deflection.'},
+  {file:'effect-of-treadmill-testing-using-the-bruce-protocol-on-the-p-wave-in-normal-individuals.pdf',thumb:'p-wave-bruce',title:'Effect of Treadmill Testing (Bruce Protocol) on the P Wave in Normal Individuals',venue:'Int. J. Cardiovascular Medicine · 2024',desc:'Charts how the P wave evolves through a Bruce-protocol treadmill test in normal individuals — rising early, merging into the PR segment at peak exercise, then re-emerging during recovery.'},
+  {file:'effect-of-pre-exercise-increase-in-heart-rate-on-subsequent-and-maximal-heart-rate-during-treadmill-testing.pdf',thumb:'pre-exercise-hr',title:'Effect of Pre-Exercise Heart-Rate Increase on Subsequent and Maximal Heart Rate during Treadmill Testing',venue:'EC Cardiology · 2022',desc:'In 63 normal subjects, a large pre-exercise heart-rate rise (from standing + hyperventilation) blunts the subsequent increase in the early Bruce stages — a confounder for interpreting stress tests.'},
+  {file:'status-of-exercise-duration-and-metabolic-equivalents-in-interpretation-of-exercise-electrocardiography.pdf',thumb:'exercise-duration-mets',title:'Status of Exercise Duration and Metabolic Equivalents in Interpretation of Exercise ECG',venue:'J. Cardiovascular Surgery & Heart Diseases · 2022',desc:'Argues that exercise duration and metabolic equivalents reflect overall effort tolerance, which depends on many non-cardiac factors — so reduced tolerance alone shouldn\'t be read as the severity of coronary disease.'},
+  {file:'objective-electrocardiographic-documentation-of-walk-through-angina-during-treadmill-testing.pdf',thumb:'walk-through-angina',title:'Objective ECG Documentation of ‘Walk-Through Angina’ during Treadmill Testing',venue:'J. Cardiology & Current Research · 2022',desc:'Two cases of ‘walk-through angina’ — angina easing despite continued exertion — documented objectively, with the symptomatic relief mirrored by a measurable reduction in ischemic ECG changes.'},
+  {file:'t-wave-alternans-preceding-st-depression-as-a-sign-of-myocardial-ischemia-during-treadmill-test.pdf',thumb:'t-wave-alternans',title:'T-Wave Alternans Preceding ST Depression as a Sign of Myocardial Ischemia during Treadmill Test',venue:'Int. J. Cardiology & Cardiovascular Disorder · 2022',desc:'A case in which T-wave alternans appeared before classical ischemic ST-segment depression during a treadmill test, suggesting it can serve as an early electrical marker of myocardial ischemia.'},
+  {file:'pseudo-st-elevation-and-terminal-t-wave-deflection-during-treadmill-test-from-printer-damping.pdf',thumb:'pseudo-st-printer',title:'Pseudo ST Elevation & Terminal T-Wave Deflection during Treadmill Test from Printer Damping',venue:'J. Cardiovascular Surgery & Heart Diseases · 2022',desc:'Six asymptomatic individuals showed ST elevation with terminal negative T waves in V1–V3 on a treadmill test that proved to be a printer-damping artifact — normal on another machine and on echo.'},
+  {file:'overdamping-of-printer-styli-can-simulate-myocardial-ischemia-during-exercise-electrocardiography.pdf',thumb:'overdamping-styli',title:'Overdamping of Printer Styli can Simulate Myocardial Ischemia during Exercise ECG',venue:'Int. J. Heart & Vascular System · 2022',desc:'Four ‘ischemic-looking’ treadmill tests turned out to be artifacts: over-damping of the printer\'s styli produced pseudo ST-segment deviation in asymptomatic, low-risk individuals with normal echocardiograms.'}
+];
+function paperCard(p){
+  return `<a class="pcard pcard-paper" href="papers/${p.file}" target="_blank" rel="noopener"><img class="pcard-img" src="previews/papers/${p.thumb}.png" alt="First page of: ${pesc(p.title)}" loading="lazy"><div class="pcard-body"><span class="pcard-venue">${pesc(p.venue)}</span><span class="pcard-title">${pesc(p.title)}</span><p class="pcard-blurb">${pesc(p.desc)}</p><span class="pcard-gh"><span class="gx">&#9636;</span>read paper (PDF) &rarr;</span></div></a>`;
+}
+function buildPapers(){
+  const c=document.getElementById('papers-list');
+  if(c) c.innerHTML=PAPERS.map(paperCard).join('');
+}
+buildPapers();
 
 /* ─── BOOT ─── */
 const bootLines=[
