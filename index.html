@@ -787,8 +787,9 @@ function procCard(p){
   const blurb=d.blurb||p.summary||'';
   const techArr=(d.tech&&d.tech.length)?d.tech:(p.tags||[]);
   const tags=techArr.slice(0,6).map(t=>`<span class="tag">${pesc(t)}</span>`).join('');
-  const media=d.preview
-    ? `<img class="pcard-img" src="${pesc(d.preview)}" alt="${pesc(p.title)} preview" loading="lazy">`
+  const prev=d.preview||p.preview; /* curated detail.json wins, else worker-resolved (README / previews-<slug>) */
+  const media=prev
+    ? `<img class="pcard-img" src="${pesc(prev)}" alt="${pesc(p.title)} preview" loading="lazy">`
     : `<div class="pcard-ph"><span>&#9670;</span></div>`;
   return `<a class="pcard" href="${pesc(p.github)}" target="_blank" rel="noopener">${media}<div class="pcard-body"><div class="pcard-head"><span class="pst ${sm.c}"><span class="d"></span>${sm.l}</span><span class="pcard-title">${pesc(p.title)}</span></div><p class="pcard-blurb">${pesc(blurb)}</p>${tags?`<div class="tags">${tags}</div>`:''}<span class="pcard-gh"><span class="gx">&#8997;</span>view on github &rarr;</span></div></a>`;
 }

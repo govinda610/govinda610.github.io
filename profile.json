@@ -1,0 +1,35 @@
+{
+  "name": "Govind Mittal",
+  "tagline": "AI Engineer & Researcher",
+  "location": "India",
+  "status": "Open to senior AI / research roles, research collaborations, and freelance / consulting work.",
+  "one_liner": "I build autonomous, agentic AI systems — and study what happens inside them.",
+  "about": "Govind Mittal is a Senior Data Scientist / AI Engineer who designs and ships production agentic-AI systems. He is currently at Gartner (agentic AI for client-call intelligence), and was previously a Senior AI Scientist at Eli Lilly (agentic tooling for Finance) and a Senior Data Scientist at Citigroup (ML, forecasting and risk). His core strengths are agentic AI — LangGraph multi-agent orchestration, RAG and Graph-RAG, LLM fine-tuning, and evaluation/observability — paired with deep AI/agent behavioural intuition (predicting why agents fail or succeed). He has an MSc in Economics (Gokhale Institute, batch prize in Econometrics) and a BSc in Economics & Statistics (NMIMS), so his work blends rigorous quantitative thinking with hands-on AI engineering.",
+  "what_he_is_looking_for": [
+    "Senior AI engineer / AI scientist / research-engineer roles at top tech companies and frontier AI labs",
+    "AI research collaborations (agents, mechanistic interpretability, time-series/forecasting)",
+    "Freelance / consulting on agentic AI and automation (manufacturing, medical, digital marketing)"
+  ],
+  "interests_and_goals": "Long-term, Govind wants to do fundamental AI research — training dynamics, new architectures, and mechanistic interpretability — ideally at a frontier lab or a top PhD program, and to build deep-tech that solves real problems (especially in India). He is also drawn to quantitative finance and to building an AI/automation consulting practice.",
+  "skills": {
+    "Agentic AI": ["LangGraph", "LangChain", "MCP", "multi-agent orchestration", "ReAct agents", "ambient / long-running agents", "human-in-the-loop", "LangSmith evals"],
+    "RAG & retrieval": ["RAG", "Graph-RAG", "Neo4j knowledge graphs", "vector search (Pinecone/Weaviate/Chroma/FAISS/Qdrant)"],
+    "LLMs & training": ["fine-tuning (LoRA/QLoRA, Unsloth)", "RL (Agent Lightning)", "prompt & context engineering", "DSPy", "model routing", "vLLM"],
+    "ML & quant": ["time-series forecasting", "anomaly detection", "Transformer ensembles", "econometrics", "statistics"],
+    "Research interests": ["mechanistic interpretability", "fundamental architectures (attention variants, Mamba/SSM, MoE)", "recursive self-improving LLMs", "ARC-AGI / reasoning"],
+    "Engineering": ["Python", "SQL", "FastAPI", "Streamlit", "PyTorch", "Docker", "GCP / AWS / Azure"]
+  },
+  "education": [
+    "MSc Economics — Gokhale Institute of Politics & Economics, Pune (batch prize: Econometrics, Business Analytics, Linear Economics)",
+    "BSc Economics & Statistics — NMIMS, Mumbai (Best Paper Presentation; Budding Economist award)"
+  ],
+  "contact": {
+    "email": "govindmittal610@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/govindmittal610",
+    "github": "https://github.com/govinda610",
+    "x_twitter": "https://x.com/GovindM45789814",
+    "whatsapp": "https://wa.me/919079091295",
+    "phone": "+91 90790 91295",
+    "contact_page": "https://govinda610.github.io/#contact"
+  }
+}
