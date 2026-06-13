@@ -42,6 +42,7 @@
   },
   "dent-supply-website": {
     "blurb": "End-to-end product website for Dent Supply, a dental-supply business — catalogue, admin, and deployment built from scratch.",
-    "tech": ["Next.js", "Web", "Full-stack"]
+    "tech": ["Next.js", "Web", "Full-stack"],
+    "preview": "previews/dent-supply-website.png"
   }
 }
