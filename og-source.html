@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1200px;height:630px;overflow:hidden}
+  body{
+    background:#0a0c11;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:40px 40px;
+    font-family:'JetBrains Mono',monospace;
+    color:#dde1e8;
+    position:relative;
+  }
+  .glow{position:absolute;top:-180px;right:-120px;width:620px;height:620px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,180,84,.14),transparent 65%);filter:blur(8px)}
+  .wrap{position:absolute;inset:0;padding:74px 80px;display:flex;flex-direction:column;justify-content:center}
+  .dots{position:absolute;top:46px;left:80px;display:flex;gap:9px}
+  .dots i{width:13px;height:13px;border-radius:50%;display:block}
+  .dots i:nth-child(1){background:#ff6057}.dots i:nth-child(2){background:#febc2e}.dots i:nth-child(3){background:#28c840}
+  .path{position:absolute;top:42px;left:156px;font-size:15px;color:#8a94a4;letter-spacing:.04em}
+  .label{font-size:18px;letter-spacing:.28em;text-transform:uppercase;color:#ffb454;margin-bottom:18px}
+  h1{font-size:96px;font-weight:700;letter-spacing:-.01em;line-height:.98;color:#f4f6fa}
+  .role{font-family:'Instrument Serif',serif;font-style:italic;font-size:38px;color:#c2c9d6;margin-top:22px;max-width:900px;line-height:1.25}
+  .role b{font-style:normal;font-weight:400;color:#ffb454}
+  .chips{display:flex;gap:12px;margin-top:38px;flex-wrap:wrap}
+  .chip{font-size:19px;color:#dde1e8;background:#13171f;border:1px solid rgba(255,255,255,.13);border-radius:7px;padding:9px 16px}
+  .foot{position:absolute;left:80px;right:80px;bottom:54px;display:flex;justify-content:space-between;align-items:center;font-size:19px}
+  .foot .url{color:#ffb454}
+  .foot .who{color:#8a94a4}
+  .cursor{display:inline-block;width:13px;height:24px;background:#ffb454;margin-left:6px;transform:translateY(3px)}
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="dots"><i></i><i></i><i></i></div>
+  <div class="path">govind@portfolio — ~/govinda610</div>
+  <div class="wrap">
+    <div class="label">ai engineer · researcher · india</div>
+    <h1>GOVIND MITTAL</h1>
+    <div class="role">I build <b>autonomous AI systems</b> — and study what happens inside them.<span class="cursor"></span></div>
+    <div class="chips">
+      <span class="chip">Agentic AI</span>
+      <span class="chip">LangGraph</span>
+      <span class="chip">RAG / Graph-RAG</span>
+      <span class="chip">Multi-agent</span>
+      <span class="chip">Interpretability</span>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="url">govinda610.github.io</span>
+    <span class="who">Gartner · ex-Eli Lilly · ex-Citi</span>
+  </div>
+</body>
+</html>
