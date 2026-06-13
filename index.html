@@ -123,7 +123,7 @@ body.guided .tip{max-height:100px;opacity:1;padding:7px 12px;margin-bottom:14px}
 .pload i{width:4px;height:13px;border-radius:1px;background:var(--surf-hi);display:block}
 .pload i.on{background:var(--amber)}
 .pb{max-height:0;overflow:hidden;transition:max-height .35s;border-top:1px solid transparent}
-.proc.open .pb{max-height:380px;border-top-color:var(--line)}
+.proc.open .pb{max-height:820px;border-top-color:var(--line)}
 .pbi{padding:13px 14px}
 .pdesc{font-size:12.5px;color:var(--txt-d);line-height:1.65;margin-bottom:9px}
 .pdesc .hl{color:var(--txt)}
@@ -360,6 +360,7 @@ a:focus-visible,.tab:focus-visible,.chip:focus-visible,.proc:focus-visible,.lk:f
 .gl-proj::before{content:"\25B8";position:absolute;left:0;top:1px;color:var(--amber-d);font-size:10.5px}
 .gl-proj b{color:#fff;font-weight:700}
 .gl-proj .m{color:var(--txt)}
+.pprev{display:block;width:100%;max-width:560px;border:1px solid var(--line-hi);border-radius:6px;margin-bottom:11px}
 </style>
 </head>
 <body>
@@ -642,29 +643,37 @@ const PROJECTS=[
   {pid:'ODY',st:'que',lbl:'queued',name:'arc-agi3-odysseus',load:2,desc:'Replicating Odysseus approach on <span class="hl">ARC-AGI-3</span> with Meta Hyperagent multi-agent architecture for abstract reasoning.',guide:'Competing on one of the hardest AI reasoning benchmarks using a novel multi-agent approach.',tags:['Agents','Reasoning','ARC-AGI'],tc:'p'},
   {pid:'IDP',st:'dev',lbl:'building',name:'agentic-idp',load:3,desc:'<span class="hl">Agentic Intelligent Document Processing</span> for e-commerce. Automated document intake, classification, extraction, workflow routing.',guide:'AI that reads and processes business documents automatically.',tags:['IDP','Agents','FastAPI'],tc:''},
 ];
-/* live from the roadmap feed — single source of truth (only pushed/real repos) */
+/* projects = live roadmap feed (status/links) + curated detail (blurb/tech/preview) */
 const PROJECTS_FEED='https://roadmap-api.govindmittal610.workers.dev/projects.public.json';
+const DETAIL_URL='projects.detail.json';
 function pesc(s){return String(s==null?'':s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
 const PSTATUS={done:{c:'done',l:'shipped',load:4},doing:{c:'dev',l:'building',load:3},planned:{c:'que',l:'planned',load:2},blocked:{c:'res',l:'blocked',load:1}};
+function slugOf(p){return p.github?p.github.replace(/^https?:\/\/github\.com\/[^/]+\//i,'').replace(/\/$/,''):'';}
 function procRow(p,i){
   const sm=PSTATUS[p.status]||PSTATUS.planned;
+  const d=p._detail||{};
   const pid=((p.codename||p.id||'proc')+'').replace(/[^a-z0-9]/gi,'').slice(0,6).toUpperCase()||'PROC';
   const loads='<i class="on"></i>'.repeat(sm.load)+'<i></i>'.repeat(5-sm.load);
-  const tags=(p.tags||[]).slice(0,5).map(t=>`<span class="tag">${pesc(t)}</span>`).join('');
-  const gh=p.github?`<a class="lk" href="${pesc(p.github)}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="gx">&#8997;</span>${pesc(p.github.replace('https://github.com/',''))}</a>`:'';
-  return `<div class="proc${i<2?' open':''}" onclick="toggleProc(this)"><div class="pr"><span class="pid">${pesc(pid)}</span><span class="pst ${sm.c}"><span class="d"></span>${sm.l}</span><span class="pn">${pesc(p.title)}<span class="arr">&#9656;</span></span><span class="pload">${loads}</span></div><div class="pb"><div class="pbi"><p class="pdesc">${pesc(p.summary||'')}</p>${tags?`<div class="tags">${tags}</div>`:''}${gh?`<div class="lks" style="margin-top:10px">${gh}</div>`:''}</div></div></div>`;
+  const blurb=d.blurb||p.summary||'';
+  const techArr=(d.tech&&d.tech.length)?d.tech:(p.tags||[]);
+  const tags=techArr.slice(0,7).map(t=>`<span class="tag">${pesc(t)}</span>`).join('');
+  const prev=d.preview?`<img class="pprev" src="${pesc(d.preview)}" alt="${pesc(p.title)} preview" loading="lazy">`:'';
+  const gh=p.github?`<a class="lk" href="${pesc(p.github)}" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="gx">&#8997;</span>view on github</a>`:'';
+  return `<div class="proc${i<2?' open':''}" onclick="toggleProc(this)"><div class="pr"><span class="pid">${pesc(pid)}</span><span class="pst ${sm.c}"><span class="d"></span>${sm.l}</span><span class="pn">${pesc(p.title)}<span class="arr">&#9656;</span></span><span class="pload">${loads}</span></div><div class="pb"><div class="pbi">${prev}<p class="pdesc">${pesc(blurb)}</p>${tags?`<div class="tags">${tags}</div>`:''}${gh?`<div class="lks" style="margin-top:10px">${gh}</div>`:''}</div></div></div>`;
 }
 async function buildProjects(){
   const c=document.getElementById('proj-list');
   try{
-    const res=await fetch(PROJECTS_FEED,{cache:'no-store'});
-    if(!res.ok)throw new Error('feed '+res.status);
-    let items=(await res.json()).filter(p=>p.github);
+    const [fr,dr]=await Promise.all([fetch(PROJECTS_FEED,{cache:'no-store'}),fetch(DETAIL_URL,{cache:'no-store'}).catch(()=>null)]);
+    if(!fr.ok)throw new Error('feed '+fr.status);
+    let items=(await fr.json()).filter(p=>p.github);
+    let detail={}; try{ if(dr&&dr.ok) detail=await dr.json(); }catch(e){}
+    items.forEach(p=>{ p._detail=detail[slugOf(p)]||{}; });
     const ord={done:0,doing:1,planned:2,blocked:3};
     items.sort((a,b)=>(ord[a.status]??9)-(ord[b.status]??9));
-    c.innerHTML=items.length?items.map(procRow).join(''):'<p style="color:var(--txt-d);font-size:12.5px">No projects yet.</p>';
+    c.innerHTML=items.length?items.map(procRow).join(''):'<p style="color:var(--txt-d);font-size:11.5px">No projects yet.</p>';
   }catch(e){
-    c.innerHTML='<p style="color:var(--txt-d);font-size:12.5px">Couldn\'t load live projects &mdash; see <a class="lk" href="https://github.com/govinda610" target="_blank" rel="noopener">github.com/govinda610</a></p>';
+    c.innerHTML='<p style="color:var(--txt-d);font-size:11.5px">Couldn\'t load live projects &mdash; see <a class="lk" href="https://github.com/govinda610" target="_blank" rel="noopener">github.com/govinda610</a></p>';
   }
 }
 buildProjects();

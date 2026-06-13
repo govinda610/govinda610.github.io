@@ -1,0 +1,47 @@
+{
+  "ai-reader": {
+    "blurb": "An agentic reading companion for fiction & research papers — a spoiler-aware e-reader whose multi-agent system builds a temporal knowledge graph of every book and answers questions grounded only in what you've read so far.",
+    "tech": ["Next.js", "FastAPI", "LangGraph", "Neo4j", "FAISS", "MLX"],
+    "preview": "previews/ai-reader.png"
+  },
+  "langgraph-rag-agent": {
+    "blurb": "A LangGraph ReAct agent for year-aware, source-grounded Q&A over Eli Lilly's public financial filings (2003–2024) — it picks the year, retrieves the right passages, and answers with citations. (Built for my Lilly interview.)",
+    "tech": ["LangGraph", "LangChain", "Chroma", "OpenAI", "Streamlit"],
+    "preview": "previews/langgraph-rag-agent.png"
+  },
+  "jobhunt-ai": {
+    "blurb": "Multi-agent job-search orchestration — a LangGraph fleet + Playwright browser automation + vector memory that hunts roles across Indian portals and adapts the résumé per role, driven by a 'heartbeat' that wakes the agents proactively.",
+    "tech": ["LangGraph", "Playwright", "Qdrant", "FastAPI", "OpenRouter"]
+  },
+  "idp-product-extractor": {
+    "blurb": "A layout-first multimodal pipeline that turns messy vendor PDF catalogues into structured, website-ready product data — and a controlled four-way study of traditional / VLM-only / hybrid / agentic extraction.",
+    "tech": ["PyMuPDF", "Docling", "VLMs", "Pydantic", "Streamlit"]
+  },
+  "agentic-flow": {
+    "blurb": "An agent factory — hand it a task and it assembles the agents (and the code to run them) needed to execute it. Spawns specialized sub-agents and wires them into a working flow.",
+    "tech": ["LangGraph", "Python", "Tool-use"],
+    "preview": "previews/agentic-flow.png"
+  },
+  "ai-shayar": {
+    "blurb": "An Indic poetry LLM — fine-tuned Gemma 2 (QLoRA via Unsloth) on Ghalib's shayari scraped from Rekhta, so it writes Urdu/Hindi verse in his style. A first step toward better Indic-language models.",
+    "tech": ["Gemma 2", "Unsloth", "QLoRA", "Hugging Face"]
+  },
+  "wifi-tracker": {
+    "blurb": "Open-source ISP diagnostics — continuously monitors your connection, keeps session history, and generates plain-English audit reports, so you have proof when your ISP insists 'everything's fine.'",
+    "tech": ["FastAPI", "SQLite", "Chart.js", "Vanilla JS"],
+    "preview": "previews/wifi-tracker.png"
+  },
+  "eudaimonai-ai-advisor": {
+    "blurb": "Eud-AI-monia — a multi-modal LangGraph life advisor that quantifies, tracks, and optimizes health, finance, and life metrics, then turns them into personalized guidance.",
+    "tech": ["LangGraph", "Graph RAG", "Multi-modal", "Python"]
+  },
+  "startbrief-client-intelligence": {
+    "blurb": "StartBrief — extracts reliable, structured intelligence from large volumes of client calls. I built it to pre-empt a 'call-insights at scale' problem and showcased it in my interview to land the Gartner role.",
+    "tech": ["LangGraph", "RAG", "FastAPI", "NLP"],
+    "preview": "previews/startbrief-client-intelligence.png"
+  },
+  "dent-supply-website": {
+    "blurb": "End-to-end product website for Dent Supply, a dental-supply business — catalogue, admin, and deployment built from scratch.",
+    "tech": ["Next.js", "Web", "Full-stack"]
+  }
+}
