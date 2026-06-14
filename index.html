@@ -110,7 +110,7 @@ body.guided .gbanner{max-height:50px;border-bottom-color:rgba(255,180,84,.18)}
 .panel.active{display:block}
 .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
 @media(min-width:1600px){.wrap{max-width:1240px}}
-.out p,.tui-agent-body{max-width:74ch}
+.out p{max-width:74ch}
 
 /* shared blocks */
 .block{padding:3.5vh 0;border-top:1px solid var(--line)}
@@ -208,7 +208,12 @@ body.guided .gi{display:block}
 @media(max-width:760px){.pgrid{grid-template-columns:1fr}}
 
 /* hero */
-.hero{padding:6vh 0 0}
+.hero{padding:3vh 0 0}
+.scrollcue{display:flex;flex-direction:column;align-items:center;gap:1px;margin:8px 0 2px;color:var(--txt-f);font-size:10px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:color .2s;animation:scbob 2s ease-in-out infinite}
+.scrollcue:hover{color:var(--amber)}
+.scrollcue .sc-c{font-size:14px;line-height:1}
+@keyframes scbob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@media(prefers-reduced-motion:reduce){.scrollcue{animation:none}}
 .hm{font-size:11.5px;color:var(--txt-f);letter-spacing:.14em;text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:9px}
 .hm::before{content:'';width:22px;height:1px;background:var(--amber)}
 .glitch{font-size:clamp(2.4rem,7.5vw,4.4rem);font-weight:700;line-height:.97;letter-spacing:-.02em;color:#f4f5f8;position:relative;cursor:default;display:inline-block}
@@ -238,13 +243,13 @@ body.guided .gi{display:block}
    TUI AGENT — Claude Code style
    ════════════════════════════════════════ */
 .tui-wrap{
-  margin:20px 0 10px;
+  margin:12px 0 10px;
   border:1px solid var(--line-hi);
   border-radius:9px;
   overflow:hidden;
-  height:calc(58vh);
-  min-height:380px;
-  max-height:560px;
+  height:46vh;
+  min-height:300px;
+  max-height:460px;
   display:flex;
   flex-direction:column;
   background:var(--bg-e);
@@ -458,7 +463,7 @@ body.guided .tui-guided-tip{display:block}
   .cap{grid-template-columns:98px 1fr 34px;gap:9px}.cap-n{font-size:11px}
   .psh,.pr{grid-template-columns:44px 76px 1fr 52px;gap:7px}.pn{font-size:12px}
   .clk{display:none}
-  .tui-wrap{height:54vh;min-height:340px}
+  .tui-wrap{height:46vh;min-height:300px;max-height:440px}
   .tui-welcome{font-size:10.5px}
   .blog-row{grid-template-columns:100px 1fr;gap:10px}.blog-row .btag{display:none}
   .tui-prompt-line .p-path{display:none}
@@ -551,6 +556,8 @@ a:focus-visible,.tab:focus-visible,.chip:focus-visible,.proc:focus-visible,.lk:f
   <div class="tui-guided-tip" style="margin-top:-4px;border-radius:0 0 6px 6px">
     &#128161; <b>This is an AI assistant</b> that knows Govind &mdash; ask it about his projects, research, background, or how to work with him. You can also just click the tabs above to explore without typing.
   </div>
+
+  <div class="scrollcue" onclick="(document.querySelector('#tab-home .block')||{}).scrollIntoView&&document.querySelector('#tab-home .block').scrollIntoView({behavior:'smooth',block:'start'})"><span class="sc-t">more below</span><span class="sc-c">&#9662;</span></div>
 
   <!-- scrollable narrative below the TUI -->
   <div class="block">
