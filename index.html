@@ -1024,14 +1024,32 @@ async function sendMsg(){
       tuiAgentMsg(resp);
       chatHistory.push({role:'assistant',content:resp});
     } else {
-      const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory.slice(-12)})});
+      let res=null;
+      try{ res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory.slice(-12)})}); }catch(e){}
       tuiTypingEnd();
-      const data=await res.json().catch(()=>({}));
-      const reply=data.reply||'Connection issue. Try again, or reach Govind directly: govindmittal610@gmail.com';
-      tuiAgentMsg(reply);
-      chatHistory.push({role:'assistant',content:reply});
-      if(typeof data.queriesLeft==='number'){document.getElementById('q-used').textContent=String(Math.max(0,RATE_LIMIT-data.queriesLeft));}
-      if(res.status===429){tuiInp.disabled=true;tuiInp.placeholder='daily limit reached — return tomorrow';}
+      if(!res||!res.ok||!res.body){
+        /* rate-limited (cap reached) or backend unavailable -> graceful fallback to local keyword responder */
+        const resp=demoResponse(txt);
+        tuiAgentMsg(resp);
+        chatHistory.push({role:'assistant',content:resp});
+      } else {
+        /* stream the reply token-by-token for low perceived latency */
+        const id='strm'+Date.now();
+        tuiAppend(`<div class="tui-agent-turn"><div class="tui-agent-line"><span class="tui-bullet">&#9679;</span><div class="tui-agent-body" id="${id}"></div></div></div>`);
+        const el=document.getElementById(id);
+        const reader=res.body.getReader();const dec=new TextDecoder();let full='',buf='';
+        const fmt=t=>'<p>'+t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>')+'</p>';
+        while(true){
+          const{done,value}=await reader.read();if(done)break;
+          buf+=dec.decode(value,{stream:true});
+          const parts=buf.split('\n');buf=parts.pop()||'';
+          for(const line of parts){const s=line.trim();if(!s.startsWith('data:'))continue;const p=s.slice(5).trim();if(!p||p==='[DONE]')continue;try{const ev=JSON.parse(p);if(ev.type==='content_block_delta'&&ev.delta&&ev.delta.type==='text_delta'&&ev.delta.text){full+=ev.delta.text;if(el)el.innerHTML=fmt(full);tuiOut.scrollTop=tuiOut.scrollHeight;}}catch{}}
+        }
+        if(el)el.removeAttribute('id');
+        chatHistory.push({role:'assistant',content:full||'(no response)'});
+        const left=res.headers.get('X-Queries-Left');
+        if(left!=null)document.getElementById('q-used').textContent=String(Math.max(0,RATE_LIMIT-parseInt(left,10)));
+      }
     }
   }catch(e){tuiTypingEnd();tuiAgentMsg('Connection issue. Try again or reach me directly: govindmittal610@gmail.com');}
   document.getElementById('agent-status').textContent='ready';
