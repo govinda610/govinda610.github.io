@@ -759,9 +759,9 @@ a:focus-visible,.tab:focus-visible,.chip:focus-visible,.proc:focus-visible,.lk:f
 
 <script>
 /* ─── CONFIG ─── */
-const WORKER_URL=''; // set to your Cloudflare Worker URL to go live
+const WORKER_URL='https://portfolio-agent.govindmittal610.workers.dev'; // live agent backend
 const DEMO_MODE=!WORKER_URL;
-const RATE_LIMIT=10;
+const RATE_LIMIT=20;
 
 /* ─── PROJECTS ─── */
 const PROJECTS=[
@@ -1024,28 +1024,23 @@ async function sendMsg(){
       tuiAgentMsg(resp);
       chatHistory.push({role:'assistant',content:resp});
     } else {
-      const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory.slice(-10)})});
+      const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory.slice(-12)})});
       tuiTypingEnd();
-      if(!res.ok)throw new Error('worker error '+res.status);
-      const reader=res.body.getReader();const dec=new TextDecoder();
-      let thinkBuf='',textBuf='';
-      while(true){
-        const{done,value}=await reader.read();if(done)break;
-        for(const line of dec.decode(value).split('\n')){
-          if(!line.startsWith('data: '))continue;
-          try{const ev=JSON.parse(line.slice(6));if(ev.type==='thinking')thinkBuf+=ev.content||'';else if(ev.type==='text')textBuf+=ev.content||'';}catch{}
-        }
-      }
-      tuiAgentMsg(textBuf||'(no response)',thinkBuf||null);
-      chatHistory.push({role:'assistant',content:textBuf});
+      const data=await res.json().catch(()=>({}));
+      const reply=data.reply||'Connection issue. Try again, or reach Govind directly: govindmittal610@gmail.com';
+      tuiAgentMsg(reply);
+      chatHistory.push({role:'assistant',content:reply});
+      if(typeof data.queriesLeft==='number'){document.getElementById('q-used').textContent=String(Math.max(0,RATE_LIMIT-data.queriesLeft));}
+      if(res.status===429){tuiInp.disabled=true;tuiInp.placeholder='daily limit reached — return tomorrow';}
     }
   }catch(e){tuiTypingEnd();tuiAgentMsg('Connection issue. Try again or reach me directly: govindmittal610@gmail.com');}
-  incRL();document.getElementById('agent-status').textContent='ready';
+  document.getElementById('agent-status').textContent='ready';
+  if(DEMO_MODE)incRL();
 }
 
 function agentBoot(){
   tuiWelcome();
-  setTimeout(()=>{tuiAgentMsg(DEMO_MODE?"Hi. I'm Govind's AI &mdash; running in demo mode with pre-written responses. Ask about my projects, research, background, or how to work together.\n\nFor the full experience, connect a Cloudflare Worker backend.":"Hi. I'm Govind's AI. Ask me anything about my work, research, or how we could collaborate. I'll respond as him in first person.");},400);
+  setTimeout(()=>{tuiAgentMsg(DEMO_MODE?"Hi &mdash; I'm Govind's AI assistant, running in demo mode with pre-written responses. Ask about his projects, research, background, or how to work with him.":"Hi &mdash; I'm Govind's AI assistant. Ask me anything about his work, experience, projects, research, or how to get in touch with him.");},400);
   if(!DEMO_MODE){document.getElementById('agent-mode-label').textContent='live';}
 }
 
