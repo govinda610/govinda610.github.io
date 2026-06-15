@@ -93,7 +93,15 @@ body.crt-off #flk{display:none}
 .clk{font-size:11px;color:var(--amber);font-variant-numeric:tabular-nums;letter-spacing:.04em}
 .chip{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--txt-d);background:var(--surf);border:1px solid var(--line);padding:4px 10px;border-radius:5px;cursor:pointer;user-select:none;transition:all .15s;white-space:nowrap}
 .chip:hover{border-color:var(--line-hi);color:var(--txt)}
+.chip.social{text-decoration:none}
+.chip.social:hover{border-color:var(--amber);color:var(--amber)}
 .chip .led{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 5px var(--green)}
+/* résumé tab */
+.resume-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.resume-sub{font-size:12.5px;color:var(--txt-d);max-width:58ch;line-height:1.6}
+.resume-prev{display:block;max-width:680px;margin:0 auto;border:1px solid var(--line-hi);border-radius:8px;overflow:hidden;transition:border-color .2s,transform .2s;background:#fff}
+.resume-prev:hover{border-color:var(--amber);transform:translateY(-2px)}
+.resume-prev img{display:block;width:100%}
 .chip.guided .led{background:var(--amber);box-shadow:0 0 5px var(--amber)}
 .tabs{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;gap:0}
 .tabs::-webkit-scrollbar{display:none}
@@ -463,6 +471,7 @@ body.guided .tui-guided-tip{display:block}
   .cap{grid-template-columns:98px 1fr 34px;gap:9px}.cap-n{font-size:11px}
   .psh,.pr{grid-template-columns:44px 76px 1fr 52px;gap:7px}.pn{font-size:12px}
   .clk{display:none}
+  .chip.social{display:none}  /* github/linkedin live in the Contact tab on mobile */
   .tui-wrap{height:46vh;min-height:300px;max-height:440px}
   .tui-welcome{font-size:10.5px}
   .blog-row{grid-template-columns:100px 1fr;gap:10px}.blog-row .btag{display:none}
@@ -498,12 +507,15 @@ a:focus-visible,.tab:focus-visible,.chip:focus-visible,.proc:focus-visible,.lk:f
     <div class="clk" id="clk">--:--:--</div>
     <div class="chip" onclick="toggleCRT()"><span style="font-size:12px">&#9638;</span><span id="crt-l">CRT</span></div>
     <div class="chip" id="mode-chip" onclick="toggleMode()"><span class="led"></span><span id="mode-l">expert</span></div>
+    <a class="chip social" href="https://github.com/govinda610" target="_blank" rel="noopener" aria-label="GitHub"><span style="font-size:12px">&#9670;</span><span class="lbl">github</span></a>
+    <a class="chip social" href="https://www.linkedin.com/in/govindmittal610" target="_blank" rel="noopener" aria-label="LinkedIn"><span style="font-size:12px;font-weight:700">in</span><span class="lbl">linkedin</span></a>
   </div>
   <div class="tabs" id="tab-bar">
     <div class="tab active" data-tab="home" onclick="switchTab('home')"><span class="ti">~</span>home</div>
     <div class="tab" data-tab="projects" onclick="switchTab('projects')"><span class="ti">&#9654;</span>projects</div>
     <div class="tab" data-tab="research" onclick="switchTab('research')"><span class="ti">&#9670;</span>research</div>
     <div class="tab" data-tab="exp" onclick="switchTab('exp')"><span class="ti">&#9677;</span>exp</div>
+    <div class="tab" data-tab="resume" onclick="switchTab('resume')"><span class="ti">&#8615;</span>résumé</div>
     <div class="tab" data-tab="blog" onclick="switchTab('blog')"><span class="ti">&#9998;</span>blog</div>
     <div class="tab" data-tab="certs" onclick="switchTab('certs')"><span class="ti">&#10003;</span>certs</div>
     <div class="tab" data-tab="contact" onclick="switchTab('contact')"><span class="ti">&#9993;</span>contact</div>
@@ -522,12 +534,6 @@ a:focus-visible,.tab:focus-visible,.chip:focus-visible,.proc:focus-visible,.lk:f
       <i><span class="pulse"></span><span class="v">online &amp; available</span></i>
       <i><span style="color:var(--txt-f)">role</span> <span class="v">snr. ai scientist/engineer @ gartner &middot; ex-lilly &middot; ex-citi</span></i>
       <i><span style="color:var(--txt-f)">seeking</span> <span class="v">researcher &amp; senior AI roles</span></i>
-    </div>
-    <div class="hcta">
-      <a class="hbtn primary" href="Govind_Mittal_Resume.pdf" target="_blank" rel="noopener" download><span class="gx">&#8615;</span>résumé</a>
-      <a class="hbtn" href="#" onclick="switchTab('contact');return false"><span class="gx">&#9993;</span>get in touch</a>
-      <a class="hbtn" href="https://github.com/govinda610" target="_blank" rel="noopener"><span class="gx">&#9670;</span>github</a>
-      <a class="hbtn" href="https://www.linkedin.com/in/govindmittal610" target="_blank" rel="noopener"><span class="gx">&#9670;</span>linkedin</a>
     </div>
   </div>
 
@@ -689,6 +695,23 @@ a:focus-visible,.tab:focus-visible,.chip:focus-visible,.proc:focus-visible,.lk:f
     <div id="exp-list"></div>
   </div>
   <div class="foot"><span class="fl">~/govinda610</span> <span class="fa">&#10095;</span> echo "CV available on request"</div>
+</div>
+</div>
+
+<!-- RESUME TAB -->
+<div class="panel" id="tab-resume">
+<div class="wrap" style="padding-top:3.5vh">
+  <div class="cmdl rv"><span class="ps">~/govinda610</span><span class="pm">&#10095;</span><span class="ty" style="color:#eef0f4;font-weight:500">cat resume.pdf</span></div>
+  <div class="out rv" style="margin-top:8px">
+    <div class="resume-head">
+      <p class="resume-sub">Senior Data Scientist / AI Engineer &mdash; agentic AI, RAG/Graph-RAG, LLM systems. Full one-page CV below.</p>
+      <a class="hbtn primary" href="Govind_Mittal_Resume.pdf" target="_blank" rel="noopener" download><span class="gx">&#8615;</span>download résumé (PDF)</a>
+    </div>
+    <a class="resume-prev" href="Govind_Mittal_Resume.pdf" target="_blank" rel="noopener" title="Open the full résumé PDF">
+      <img src="previews/resume.png" alt="Govind Mittal résumé &mdash; first page" loading="lazy">
+    </a>
+  </div>
+  <div class="foot"><span class="fl">~/govinda610</span> <span class="fa">&#10095;</span> echo "open in a new tab or download the PDF"</div>
 </div>
 </div>
 
