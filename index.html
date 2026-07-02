@@ -194,8 +194,6 @@ body.guided .gi{display:block}
 .pcard{display:flex;flex-direction:column;background:var(--surf);border:1px solid var(--line);border-radius:9px;overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s;text-decoration:none}
 .pcard:hover{border-color:var(--line-hi);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.35)}
 .pcard-img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top center;background:var(--bg-e);border-bottom:1px solid var(--line);display:block}
-.pcard-ph{width:100%;aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--surf-hi),var(--bg-e));border-bottom:1px solid var(--line)}
-.pcard-ph span{font-size:28px;color:var(--line-hi)}
 .pcard-body{display:flex;flex-direction:column;gap:9px;padding:14px 16px 16px;flex:1}
 .pcard-head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
 .pcard-head .pst{flex-shrink:0}
@@ -820,7 +818,7 @@ function procCard(p){
   const prev=d.preview||p.preview; /* curated detail.json wins, else worker-resolved (README / previews-<slug>) */
   const media=prev
     ? `<img class="pcard-img" src="${pesc(prev)}" alt="${pesc(p.title)} preview" loading="lazy">`
-    : `<div class="pcard-ph"><span>&#9670;</span></div>`;
+    : '';
   return `<a class="pcard" href="${pesc(p.github)}" target="_blank" rel="noopener">${media}<div class="pcard-body"><div class="pcard-head"><span class="pst ${sm.c}"><span class="d"></span>${sm.l}</span><span class="pcard-title">${pesc(p.title)}</span></div><p class="pcard-blurb">${pesc(blurb)}</p>${tags?`<div class="tags">${tags}</div>`:''}<span class="pcard-gh"><span class="gx">&#8997;</span>view on github &rarr;</span></div></a>`;
 }
 async function buildProjects(){
@@ -858,7 +856,8 @@ buildPapers();
 /* ─── CERTIFICATES (data: certs.json) ─── */
 function certCard(c){
   const venue=c.issuer+(c.year?(' · '+c.year):'');
-  return `<a class="pcard pcard-cert" href="${c.file}" target="_blank" rel="noopener"><img class="pcard-img" src="${pesc(c.thumb)}" alt="${pesc(c.name)} certificate" loading="lazy"><div class="pcard-body"><span class="pcard-venue">${pesc(venue)}</span><span class="pcard-title">${pesc(c.name)}</span><p class="pcard-blurb">${pesc(c.skills)}</p><span class="pcard-gh"><span class="gx">&#9636;</span>view certificate &rarr;</span></div></a>`;
+  const media=c.thumb?`<img class="pcard-img" src="${pesc(c.thumb)}" alt="${pesc(c.name)} certificate" loading="lazy">`:'';
+  return `<a class="pcard pcard-cert" href="${c.file}" target="_blank" rel="noopener">${media}<div class="pcard-body"><span class="pcard-venue">${pesc(venue)}</span><span class="pcard-title">${pesc(c.name)}</span><p class="pcard-blurb">${pesc(c.skills)}</p><span class="pcard-gh"><span class="gx">&#9636;</span>view certificate &rarr;</span></div></a>`;
 }
 async function buildCerts(){
   const c=document.getElementById('certs-list'); if(!c) return;
