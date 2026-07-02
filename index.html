@@ -938,7 +938,19 @@ addEventListener('resize',()=>{resize();initPts();});
 function switchTab(id){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===id));
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+id));
-  if(id==='home'){setTimeout(initReveal,50);setTimeout(()=>document.getElementById('tui-inp').focus(),200);}
+  revealNow(document.getElementById('tab-'+id)); // show the panel's content immediately (no scroll needed)
+  if(id==='home'){initReveal();setTimeout(()=>document.getElementById('tui-inp').focus(),200);}
+}
+// Instantly reveal all .rv / typed-command content inside a panel (used on tab switch,
+// since the scroll observer only fires on intersection and JS-rendered grids start hidden).
+function revealNow(root){
+  if(!root)return;
+  root.querySelectorAll('[data-cmd]').forEach(t=>{const sp=t.querySelector('.ty');if(sp&&!sp.dataset.done){sp.dataset.done='1';sp.textContent=sp.dataset.type||sp.textContent;}});
+  root.querySelectorAll('.rv').forEach(t=>{
+    t.classList.add('in');
+    t.querySelectorAll('.cap-f').forEach(f=>f.style.width=f.dataset.pct+'%');
+    t.querySelectorAll('[data-count]').forEach(el=>{if(el.dataset.done)return;el.dataset.done='1';const tgt=+el.dataset.count,sfx=el.dataset.sfx||'';let v=0;const inc=tgt/34;(function s(){v+=inc;if(v<tgt){el.textContent=Math.floor(v)+sfx;requestAnimationFrame(s);}else el.textContent=tgt+sfx;})();});
+  });
 }
 
 /* ─── MODE ─── */
