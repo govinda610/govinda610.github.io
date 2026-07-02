@@ -3,14 +3,14 @@
     "type": "job",
     "active": true,
     "period": "HEAD &mdash; Feb 2026 &ndash; present",
-    "title": "Senior AI Scientist / Engineer &mdash; Gartner",
-    "subtitle": "Agentic AI for client-call intelligence at Gartner scale &mdash; with a focus on evaluations, quality and reliable agent systems.",
+    "title": "Senior Scientist, AI &mdash; Gartner",
+    "subtitle": "Agentic AI for client-call intelligence at Gartner scale &mdash; graph-based re-architecture, local model hosting, and evaluation.",
     "projects": [
-      {"name": "Call Insights at Scale", "html": "agentic Graph-RAG over a purpose-built Gartner knowledge graph that turns <span class=\"m\">30&ndash;50K sales/service calls a month</span> (6K&ndash;100K+ tokens each) into self-serve, hierarchy-aware insight &mdash; top objections, win/loss, renewal-vs-growth, disengagement reasons, sentiment and peer-connection discovery, visible from associate to executive. By moving all reasoning onto the graph and limiting the agent to <span class=\"m\">one Cypher query + a summary</span>: tokens <span class=\"m\">&minus;85% (200&ndash;400K &rarr; &lt;60K)</span>, latency <span class=\"m\">&minus;65% (~150s &rarr; ~50s)</span>, failure surface <span class=\"m\">25 steps &rarr; 2</span>."},
-      {"name": "Local embedding migration", "html": "replaced OpenAI embeddings with Harrier-OSS run locally on vLLM for call-transcript embedding: <span class=\"m\">$0 API cost, ~50&ndash;60% faster</span>, with tighter, better-calibrated similarity scores."},
-      {"name": "Agent performance engineering", "html": "TOON + Markdown I/O (<span class=\"m\">&minus;22% latency, &minus;35% tokens</span>), prompt caching, autocompaction, a model router, and DSPy for model-invariant instructions."}
+      {"name": "GraphGOAT", "html": "re-architected Gartner's agentic tech (GOAT) around a <span class=\"m\">single knowledge graph</span> &mdash; unifying the data behind post-call follow-ups, quarterly business reviews and asset-intelligence agents so the agent only writes a graph query and summarizes, instead of doing multi-step reasoning itself. Cut context <span class=\"m\">~200&ndash;250K &rarr; &lt;15K tokens</span> per query, per-query reasoning <span class=\"m\">10&ndash;15 steps &rarr; 2&ndash;3</span>, and agentic errors <span class=\"m\">~20%</span> &mdash; while opening far wider data access, across <span class=\"m\">30&ndash;50K calls/month</span>."},
+      {"name": "Local LLM migration", "html": "fine-tuned and deployed a <span class=\"m\">Gemma-4 12B</span> model locally on AWS SageMaker (L4 GPU), replacing recurring OpenAI API cost. With multi-token prediction and TurboQuant near-lossless 4-bit KV-cache quantization: decode latency <span class=\"m\">~&minus;50%</span>, throughput <span class=\"m\">~+50%</span> &mdash; matching cloud-API speed at no per-call cost."},
+      {"name": "Agent performance &amp; evaluation engineering", "html": "TOON + Markdown I/O (<span class=\"m\">&minus;22% latency, &minus;35% tokens</span>), prompt caching, model routing, DSPy for model-invariant prompts, and RL-based feedback with LLM eval suites."}
     ],
-    "stack": "Stack: LangGraph 1.0 &middot; Neo4j &middot; Anthropic &middot; vLLM &middot; DSPy"
+    "stack": "Stack: LangGraph &middot; Neo4j &middot; Gemma-4 &middot; AWS SageMaker &middot; DSPy"
   },
   {
     "type": "job",
