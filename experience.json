@@ -34,7 +34,7 @@
     "title": "Senior Data Scientist &mdash; Citigroup <span style=\"color:var(--txt-f)\">(Business Analyst &rarr; Data Scientist &rarr; Sr. DS)</span>",
     "subtitle": "ML, forecasting and risk across Citi's AI &amp; analytics (AIM) group &mdash; progressing from Business Analyst to Senior Data Scientist.",
     "projects": [
-      {"name": "First-party fraud detection", "html": "anomaly-detection system flagging fraudulent activity, saving <span class=\"m\">~$6.6M/yr</span>."},
+      {"name": "First-party fraud detection", "html": "an anomaly-detection system that caught an escalating \"excessive first-party disputes\" scheme &mdash; clients abusing chargebacks (repeat disputes on the same transaction, then withdrawing funds and closing the account) &mdash; flagging <span class=\"m\">~$6.6M</span> in losses over ~6 months before it could balloon further."},
       {"name": "Call-volume forecasting", "html": "hierarchical time-series + Transformer ensembles for global call-center capacity planning, <span class=\"m\">81% &rarr; 91.8%</span>."},
       {"name": "Deposit-rate prediction", "html": "RF + Transformer ensemble setting optimal rates for <span class=\"m\">2,500+ clients</span>, error down to <span class=\"m\">11 bps</span>."},
       {"name": "Work-allocation optimization", "html": "constrained optimization cutting <span class=\"m\">AHT &minus;25% (~$1.1M/yr)</span>."}
