@@ -195,6 +195,11 @@ body.guided .gi{display:block}
 .pcard{display:flex;flex-direction:column;background:var(--surf);border:1px solid var(--line);border-radius:9px;overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s;text-decoration:none}
 .pcard:hover{border-color:var(--line-hi);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.35)}
 .pcard-img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top center;background:var(--bg-e);border-bottom:1px solid var(--line);display:block}
+.pcard-carousel{position:relative;overflow:hidden}
+.pcard-carousel .pcard-img{transition:opacity .22s ease}
+.pcard-dots{position:absolute;left:0;right:0;bottom:8px;display:flex;gap:5px;justify-content:center;pointer-events:none;z-index:2}
+.pdot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.45);box-shadow:0 0 3px rgba(0,0,0,.6);transition:width .2s,background .2s}
+.pdot.on{background:var(--amber);width:14px;border-radius:3px}
 .pcard-body{display:flex;flex-direction:column;gap:9px;padding:14px 16px 16px;flex:1}
 .pcard-head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
 .pcard-head .pst{flex-shrink:0}
@@ -816,11 +821,30 @@ function procCard(p){
   const blurb=d.blurb||p.summary||'';
   const techArr=(d.tech&&d.tech.length)?d.tech:(p.tags||[]);
   const tags=techArr.slice(0,6).map(t=>`<span class="tag">${pesc(t)}</span>`).join('');
-  const prev=d.preview||p.preview; /* curated detail.json wins, else worker-resolved (README / previews-<slug>) */
-  const media=prev
-    ? `<img class="pcard-img" src="${pesc(prev)}" alt="${pesc(p.title)} preview" loading="lazy">`
-    : '';
+  /* previews: curated detail.json array (cycled) > single preview > worker-resolved */
+  const prevs=(d.previews&&d.previews.length)?d.previews:((d.preview||p.preview)?[d.preview||p.preview]:[]);
+  let media='';
+  if(prevs.length>1){
+    const dots=prevs.map((_,i)=>`<span class="pdot${i===0?' on':''}"></span>`).join('');
+    media=`<div class="pcard-carousel" data-srcs='${JSON.stringify(prevs)}'><img class="pcard-img" src="${pesc(prevs[0])}" alt="${pesc(p.title)} preview" loading="lazy"><div class="pcard-dots">${dots}</div></div>`;
+  } else if(prevs.length===1){
+    media=`<img class="pcard-img" src="${pesc(prevs[0])}" alt="${pesc(p.title)} preview" loading="lazy">`;
+  }
   return `<a class="pcard" href="${pesc(p.github)}" target="_blank" rel="noopener">${media}<div class="pcard-body"><div class="pcard-head"><span class="pst ${sm.c}"><span class="d"></span>${sm.l}</span><span class="pcard-title">${pesc(p.title)}</span></div><p class="pcard-blurb">${pesc(blurb)}</p>${tags?`<div class="tags">${tags}</div>`:''}<span class="pcard-gh"><span class="gx">&#8997;</span>view on github &rarr;</span></div></a>`;
+}
+function startCarousels(){
+  document.querySelectorAll('.pcard-carousel').forEach(c=>{
+    let srcs; try{srcs=JSON.parse(c.getAttribute('data-srcs'));}catch(e){return;}
+    if(!Array.isArray(srcs)||srcs.length<2)return;
+    srcs.forEach(s=>{const im=new Image();im.src=s;}); /* preload */
+    const img=c.querySelector('img'), dots=c.querySelectorAll('.pdot'); let i=0;
+    setInterval(()=>{
+      i=(i+1)%srcs.length;
+      img.style.opacity='0';
+      setTimeout(()=>{img.src=srcs[i];img.style.opacity='1';},220);
+      dots.forEach((d,di)=>d.classList.toggle('on',di===i));
+    },3200);
+  });
 }
 async function buildProjects(){
   const c=document.getElementById('proj-list');
@@ -837,6 +861,7 @@ async function buildProjects(){
       return (ord[a.status]??9)-(ord[b.status]??9);
     });
     c.innerHTML=items.length?items.map(procCard).join(''):'<p style="color:var(--txt-d);font-size:11.5px">No projects yet.</p>';
+    startCarousels();
   }catch(e){
     c.innerHTML='<p style="color:var(--txt-d);font-size:11.5px">Couldn\'t load live projects &mdash; see <a class="lk" href="https://github.com/govinda610" target="_blank" rel="noopener">github.com/govinda610</a></p>';
   }

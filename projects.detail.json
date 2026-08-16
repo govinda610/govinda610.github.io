@@ -9,7 +9,13 @@
       "Textual",
       "FastAPI"
     ],
-    "preview": "previews/ekalavya.png?v=2"
+    "preview": "previews/ekalavya/landing.png",
+    "previews": [
+      "previews/ekalavya/landing.png",
+      "previews/ekalavya/forest-map.png",
+      "previews/ekalavya/overview.png",
+      "previews/ekalavya/arena.png"
+    ]
   },
   "ai-reader": {
     "blurb": "An agentic reading companion for fiction & research papers — a spoiler-aware e-reader whose multi-agent system builds a temporal knowledge graph of every book and answers questions grounded only in what you've read so far.",
