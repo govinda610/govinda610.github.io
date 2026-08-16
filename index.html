@@ -821,7 +821,10 @@ function procCard(p){
   const blurb=d.blurb||p.summary||'';
   const techArr=(d.tech&&d.tech.length)?d.tech:(p.tags||[]);
   const tags=techArr.slice(0,6).map(t=>`<span class="tag">${pesc(t)}</span>`).join('');
-  /* previews: curated detail.json array (cycled) > single preview > worker-resolved */
+  /* previews: curated detail.json array (cycled) > single preview > worker-resolved.
+     Cards without a curated multi-set auto-discover ALL their README screenshots client-side. */
+  const manualMulti=!!(d.previews&&d.previews.length>1);
+  const repoSlug=slugOf(p);
   const prevs=(d.previews&&d.previews.length)?d.previews:((d.preview||p.preview)?[d.preview||p.preview]:[]);
   let media='';
   if(prevs.length>1){
@@ -830,21 +833,61 @@ function procCard(p){
   } else if(prevs.length===1){
     media=`<img class="pcard-img" src="${pesc(prevs[0])}" alt="${pesc(p.title)} preview" loading="lazy">`;
   }
-  return `<a class="pcard" href="${pesc(p.github)}" target="_blank" rel="noopener">${media}<div class="pcard-body"><div class="pcard-head"><span class="pst ${sm.c}"><span class="d"></span>${sm.l}</span><span class="pcard-title">${pesc(p.title)}</span></div><p class="pcard-blurb">${pesc(blurb)}</p>${tags?`<div class="tags">${tags}</div>`:''}<span class="pcard-gh"><span class="gx">&#8997;</span>view on github &rarr;</span></div></a>`;
+  const autoAttr=(!manualMulti&&repoSlug)?` data-autorepo="${pesc(repoSlug)}"`:'';
+  return `<a class="pcard" href="${pesc(p.github)}" target="_blank" rel="noopener"${autoAttr}>${media}<div class="pcard-body"><div class="pcard-head"><span class="pst ${sm.c}"><span class="d"></span>${sm.l}</span><span class="pcard-title">${pesc(p.title)}</span></div><p class="pcard-blurb">${pesc(blurb)}</p>${tags?`<div class="tags">${tags}</div>`:''}<span class="pcard-gh"><span class="gx">&#8997;</span>view on github &rarr;</span></div></a>`;
 }
-function startCarousels(){
-  document.querySelectorAll('.pcard-carousel').forEach(c=>{
-    let srcs; try{srcs=JSON.parse(c.getAttribute('data-srcs'));}catch(e){return;}
-    if(!Array.isArray(srcs)||srcs.length<2)return;
-    srcs.forEach(s=>{const im=new Image();im.src=s;}); /* preload */
-    const img=c.querySelector('img'), dots=c.querySelectorAll('.pdot'); let i=0;
-    setInterval(()=>{
-      i=(i+1)%srcs.length;
-      img.style.opacity='0';
-      setTimeout(()=>{img.src=srcs[i];img.style.opacity='1';},220);
-      dots.forEach((d,di)=>d.classList.toggle('on',di===i));
-    },3200);
-  });
+function cycleCarousel(c){
+  if(c._cycling)return; c._cycling=true;
+  let srcs; try{srcs=JSON.parse(c.getAttribute('data-srcs'));}catch(e){return;}
+  if(!Array.isArray(srcs)||srcs.length<2)return;
+  srcs.forEach(s=>{const im=new Image();im.src=s;}); /* preload */
+  const img=c.querySelector('img'), dots=c.querySelectorAll('.pdot'); let i=0;
+  setInterval(()=>{
+    i=(i+1)%srcs.length;
+    img.style.opacity='0';
+    setTimeout(()=>{img.src=srcs[i];img.style.opacity='1';},220);
+    dots.forEach((d,di)=>d.classList.toggle('on',di===i));
+  },3200);
+}
+function startCarousels(){ document.querySelectorAll('.pcard-carousel').forEach(cycleCarousel); }
+
+/* AUTO: pull every screenshot from a repo's README and cycle them — no manual curation. */
+function readmeImages(md, base){
+  const urls=[]; let m;
+  const mdRe=/!\[[^\]]*\]\(\s*([^)\s]+)/g;      while((m=mdRe.exec(md)))   urls.push(m[1]);
+  const htmlRe=/<img[^>]+src=["']([^"']+)["']/gi; while((m=htmlRe.exec(md))) urls.push(m[1]);
+  const bad=/shields\.io|badgen|\bbadge\b|codecov|\/actions\/|licen|\.svg(\?|$)/i;
+  const seen=new Set(), out=[];
+  for(let u of urls){
+    if(!u||bad.test(u))continue;
+    if(u.startsWith('//'))u='https:'+u;
+    else if(!/^https?:\/\//i.test(u))u=base+u.replace(/^\.?\//,'');
+    if(seen.has(u))continue; seen.add(u); out.push(u);
+  }
+  return out;
+}
+async function autoDiscoverPreviews(){
+  const cards=[...document.querySelectorAll('.pcard[data-autorepo]')];
+  await Promise.all(cards.map(async card=>{
+    const repo=card.getAttribute('data-autorepo'); if(!repo)return;
+    let md=null, base='';
+    for(const br of ['main','master']){
+      try{
+        const r=await fetch(`https://raw.githubusercontent.com/govinda610/${repo}/${br}/README.md`,{cache:'force-cache'});
+        if(r.ok){ md=await r.text(); base=`https://raw.githubusercontent.com/govinda610/${repo}/${br}/`; break; }
+      }catch(e){}
+    }
+    if(!md)return;
+    const imgs=readmeImages(md, base);
+    if(imgs.length<2)return; /* nothing to cycle */
+    const dots=imgs.map((_,i)=>`<span class="pdot${i?'':' on'}"></span>`).join('');
+    const wrap=document.createElement('div');
+    wrap.className='pcard-carousel'; wrap.setAttribute('data-srcs', JSON.stringify(imgs));
+    wrap.innerHTML=`<img class="pcard-img" src="${imgs[0]}" alt="${(card.getAttribute('aria-label')||'project')} preview" loading="lazy"><div class="pcard-dots">${dots}</div>`;
+    const existing=card.querySelector('.pcard-img, .pcard-carousel');
+    if(existing) existing.replaceWith(wrap); else card.insertBefore(wrap, card.firstChild);
+    cycleCarousel(wrap);
+  }));
 }
 async function buildProjects(){
   const c=document.getElementById('proj-list');
@@ -862,6 +905,7 @@ async function buildProjects(){
     });
     c.innerHTML=items.length?items.map(procCard).join(''):'<p style="color:var(--txt-d);font-size:11.5px">No projects yet.</p>';
     startCarousels();
+    autoDiscoverPreviews();
   }catch(e){
     c.innerHTML='<p style="color:var(--txt-d);font-size:11.5px">Couldn\'t load live projects &mdash; see <a class="lk" href="https://github.com/govinda610" target="_blank" rel="noopener">github.com/govinda610</a></p>';
   }
