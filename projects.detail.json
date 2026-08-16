@@ -1,4 +1,16 @@
 {
+  "ekalavya": {
+    "blurb": "A terminal-first coding tutor that makes you earn the answer — Socratic onboarding, daily gated drills, confidence-first calibration scoring, sandboxed hidden-test grading, and souls-style anti-paste. Simulates take-home & AI-allowed interviews and tailors practice to your real repos. Named after the self-taught Mahabharata archer.",
+    "tech": [
+      "Python",
+      "deep-agents",
+      "LangGraph",
+      "FSRS",
+      "Textual",
+      "FastAPI"
+    ],
+    "preview": "previews/ekalavya.png"
+  },
   "ai-reader": {
     "blurb": "An agentic reading companion for fiction & research papers — a spoiler-aware e-reader whose multi-agent system builds a temporal knowledge graph of every book and answers questions grounded only in what you've read so far.",
     "tech": ["Next.js", "FastAPI", "LangGraph", "Neo4j", "FAISS", "MLX"],
